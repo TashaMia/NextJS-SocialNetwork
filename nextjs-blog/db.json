@@ -1,0 +1,72 @@
+{
+  "posts": [
+    {
+      "text": "asdasdasdasdas",
+      "user": "jkjdrg",
+      "liked": false,
+      "id": 1
+    },
+    {
+      "text": "wqdwdwqdq",
+      "user": "jkjdrg",
+      "liked": false,
+      "id": 2
+    },
+    {
+      "text": "hi",
+      "user": "fsdsd2",
+      "liked": false,
+      "id": 3
+    },
+    {
+      "text": "heh",
+      "user": "jkjdrg",
+      "liked": false,
+      "id": 4
+    },
+    {
+      "text": "wqe",
+      "user": "jkjdrg",
+      "liked": false,
+      "id": 5
+    },
+    {
+      "text": "wass",
+      "user": "jkjdrg",
+      "liked": false,
+      "id": 6
+    }
+  ],
+  "users": [
+    {
+      "email": "qq@qq.qq",
+      "password": "1234",
+      "id": "jkjdrg",
+      "firstName": "Маленький",
+      "lastName": "Хвост",
+      "gender": "female",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/file-uploade.appspot.com/o/user-image-0?alt=media&token=95f60686-e686-4cde-b037-83c58beec57e"
+    },
+    {
+      "id": "2N3iMK1"
+    },
+    {
+      "email": "qq@sss.ww",
+      "firstName": "wqwq",
+      "gender": "women",
+      "id": "fekwh3",
+      "lastName": "wqqw",
+      "password": "11§2",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/file-uploade.appspot.com/o/user-image-3?alt=media&token=95f60686-e686-4cde-b037-83c58beec57e"
+    },
+    {
+      "email": "qw@hg.ww",
+      "firstName": "wq",
+      "gender": "women",
+      "id": "fekwh4",
+      "lastName": "ewq",
+      "password": "34567",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/file-uploade.appspot.com/o/user-image-4?alt=media&token=95f60686-e686-4cde-b037-83c58beec57e"
+    }
+  ]
+}
