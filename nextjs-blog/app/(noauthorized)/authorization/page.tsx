@@ -1,10 +1,25 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { atom, useAtom } from "jotai";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
 import useGetUsers from "../../useGetUsers";
+import ModalWindow, {
+  modalWindowQuestion,
+} from "../../modalWindow/ModalWindow";
+import { modalWindow } from "../../(authorized)/layout";
+
+interface IUser {
+  email: string;
+  firstName: string;
+  id: string;
+  lastName: string;
+  password: string;
+  picture: string;
+}
+
 export const emailAt = atom("");
 export const passwordAt = atom("");
+
 export default function Autorithation() {
   const router = useRouter();
   const [error, setError] = useState(false);
@@ -12,10 +27,11 @@ export default function Autorithation() {
   const [email, setEmail] = useAtom(emailAt);
   const [password, setPassword] = useAtom(passwordAt);
   const users = useGetUsers({ isFilter: false });
-
+  const modaWindowQue = useSetAtom(modalWindowQuestion);
+  const modaWindowVisible = useSetAtom(modalWindow);
+  const modaWindowVisibleValue = useAtomValue(modalWindow);
   function getEmail(event: React.FormEvent<HTMLInputElement>) {
     setEmail(event.currentTarget.value);
-    console.log(email);
   }
 
   function getPassword(event: React.FormEvent<HTMLInputElement>) {
@@ -35,7 +51,6 @@ export default function Autorithation() {
   }
 
   function logIn() {
-    // data.map((i) => i.email == email && i.password == password);
     if (validationEmail() && validationPassword()) {
       localStorage.setItem("autorithed", "true");
       router.push("/feed");
@@ -51,23 +66,24 @@ export default function Autorithation() {
     const searchEmail = email;
     const searchPassword = password;
     if (
-      users.find((i) => i.password == searchPassword) === undefined ||
-      users.find((i) => i.email == searchEmail) === undefined
+      users.find((i: IUser) => i.password == searchPassword) === undefined ||
+      users.find((i: IUser) => i.email == searchEmail) === undefined
     ) {
-      console.log(false);
       return false;
     } else {
-      console.log(true);
-
       return true;
     }
   }
 
   function chooseLogInOrReg() {
     if (checkUserInData() == false) {
-      router.push("/profileCreation");
+      modaWindowVisible(true);
+
+      modaWindowQue(
+        "Мы не смогли найти профиль с такими данными. Хотите создать профиль?"
+      );
     } else {
-      users.map((i) => {
+      users.map((i: IUser) => {
         if (i.email == email) {
           localStorage.setItem("user", `${users.indexOf(i)}`);
           localStorage.setItem("userId", `${users[users.indexOf(i)].id}`);
@@ -79,6 +95,8 @@ export default function Autorithation() {
 
   return (
     <div>
+      {modaWindowVisibleValue && <ModalWindow />}
+
       <div className="flex flex-col items-center">
         <div className="w-screen p-4 flex flex-col justify-center items-center gap-2">
           <h1 className="text-xl ">
@@ -87,8 +105,7 @@ export default function Autorithation() {
         </div>
         <div className="border border-slate-600 w-80 h-96  rounded-xl ">
           <div className="flex gap-6 justify-center h-16 p-4">
-            <button>Вход</button>
-            <button>Регистрация</button>
+            <p>Авторизация</p>
           </div>
           <div className="flex flex-col items-center justify-center">
             <div className="flex flex-col items-start p-4 justify-center gap-4 w-[100%]">
@@ -113,7 +130,6 @@ export default function Autorithation() {
               type="button"
               onClick={() => {
                 chooseLogInOrReg();
-                console.log(email, password);
               }}
               className="h-12 flex justify-center items-center p-4 w-[90%] text-white rounded-3xl border border-slate-600 bg-slate-400 "
             >

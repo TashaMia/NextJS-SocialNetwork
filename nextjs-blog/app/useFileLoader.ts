@@ -1,9 +1,9 @@
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { useState } from 'react';
+import { SetStateAction } from 'jotai';
+import { Dispatch } from 'react';
 
 export default function useFileloader(setNewUserImage?: any){
-    // const[picture, setPicture] = useState(null)
 
     const firebaseConfig = {
         apiKey: "AIzaSyDT1_TnCNG4N_ghrjYyqHZ_AlphBHEvv-w",
@@ -19,15 +19,15 @@ export default function useFileloader(setNewUserImage?: any){
 
       
 
-      async function handleUpload(userIndex:number, picture: File){
+      async function handleUpload(userIndex:number, picture: File|null, setDone:Dispatch<SetStateAction<string>>){
         if(!picture){
-            alert('Пожалуйста, выберите файл!');
             return;
         };       
             ref(storage, `images/${picture?.name}`);
             const storageRef = ref(storage, `user-image-${userIndex}`);
             uploadBytes(storageRef, picture).then((snapshot) => {
                 setNewUserImage(storageRef.bucket);
+                setDone('Done')
               });
         
        };

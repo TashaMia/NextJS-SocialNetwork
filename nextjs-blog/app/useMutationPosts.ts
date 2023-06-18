@@ -1,13 +1,9 @@
-import { userAgent } from "next/server";
-import { text } from "stream/consumers";
-import { idText } from "typescript";
 import useSWRMutation from 'swr/mutation'
 
 export default function useMutationPosts(){
     const {trigger, isMutating, data} = useSWRMutation('posts', addPost)
     async function addPost(params: string, {arg}:{arg: {body: object}}) {
-        console.log(arg.body)
-        fetch (`http://localhost:3000/${params}`,{
+         fetch (`http://localhost:3000/${params}`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

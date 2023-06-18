@@ -1,31 +1,38 @@
 "use client";
-import { useAtomValue, useSetAtom } from "jotai";
-import { CaretDown, ClosedCaptioning, X } from "@phosphor-icons/react";
-import { useRef, useState } from "react";
+import { useSetAtom } from "jotai";
+import { CaretDown } from "@phosphor-icons/react";
+import { useRef } from "react";
 import useMutationPosts from "../../useMutationPosts";
 import { textFieldAtom } from "../layout";
+import { mutate } from "swr";
 
 export default function AddPost() {
-  const refText = useRef();
-  const [body, setBody] = useState({});
+  const refText = useRef<HTMLTextAreaElement>(null);
   const textFieldVisible = useSetAtom(textFieldAtom);
   const userId = localStorage.getItem("userId");
   const { trigger, isMutating } = useMutationPosts();
   const handleAddPost = () => {
     if (refText.current?.value) {
-      trigger({
-        body: {
-          text: refText.current?.value,
-          user: userId,
-          liked: false,
+      trigger(
+        {
+          body: {
+            text: refText.current?.value,
+            user: userId,
+            liked: false,
+          },
         },
-      });
+        {
+          onSuccess: () => {
+            mutate((key) => typeof key == "string" && key?.includes("posts"));
+          },
+        }
+      );
     }
     textFieldVisible(false);
   };
 
   return (
-    <div className="h-72 w-[96%] flex border border-stone-400 mb-96 border-solid flex-col justify-start items-center rounded-lg bg-slate-100 fixed">
+    <div className="h-72 w-[96%] flex border border-stone-400 mb-96 ml-2 border-solid flex-col justify-start items-center rounded-lg bg-slate-100 fixed">
       <div className="w-[90%] flex justify-end mt-4">
         <button onClick={() => textFieldVisible(false)}>
           <CaretDown />

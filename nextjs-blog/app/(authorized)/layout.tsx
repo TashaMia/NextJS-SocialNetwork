@@ -2,8 +2,11 @@
 import { HouseLine, Bell, Plus, User, SignOut } from "@phosphor-icons/react";
 import Link from "next/link";
 import AddPost from "./addPostComponent/AddPost";
-import { atom, useAtom } from "jotai";
+import { atom, useAtom, useSetAtom } from "jotai";
+import ModalWindow, { modalWindowQuestion } from "../modalWindow/ModalWindow";
+import SideMenu from "./appComponent/SideMenu";
 export const textFieldAtom = atom(false);
+export const modalWindow = atom(false);
 
 export default function MenuLayout({
   children,
@@ -12,12 +15,20 @@ export default function MenuLayout({
 }) {
   const [openTextFiled, setOpenTextFiled] = useAtom(textFieldAtom);
   const userId = localStorage.getItem("userId");
-  return (
-    <div>
-      {openTextFiled && <AddPost />}
+  const [modalWindowOpened, setModalWindowOpened] = useAtom(modalWindow);
+  const modaWindowQue = useSetAtom(modalWindowQuestion);
 
-      <div> {children}</div>
-      <div className="fixed w-screen px-2  flex justify-between items-center  bottom-0 h-16 border-t border-t-slate-200 bg-white">
+  return (
+    <div className="sm:h-[100%]">
+      {modalWindowOpened && <ModalWindow />}
+      {openTextFiled && <AddPost />}
+      <div className="flex">
+        <div className="hidden sm:w-[30%] sm:flex sm:justify-end sm:min-h-screen sm:border-r sm:border-slate-300 ">
+          <SideMenu />
+        </div>
+        <div className="sm:w-[70%] w-[100%]"> {children}</div>
+      </div>
+      <div className="sm:hidden fixed w-screen px-2  flex justify-between items-center  bottom-0 h-16 border-t border-t-slate-200 bg-white">
         <Link href="/feed">
           <HouseLine className="text-gray-900  w-6 h-6" />
         </Link>
@@ -30,16 +41,15 @@ export default function MenuLayout({
         <Link href={`/user/${userId}`}>
           <User className="w-6 h-6 text-gray-900" />
         </Link>
+
         <button
-        // onClick={() => {
-        //   navigate("/autorithation");
-        //   localStorage.setItem("autorithed", "false");
-        //   location.reload();
-        // }}
+          onClick={() => {
+            modaWindowQue("Вы уверены что хотите выйти?");
+
+            setModalWindowOpened(true);
+          }}
         >
-          <Link href="/authorization">
-            <SignOut className="w-6 h-6 text-gray-900" />
-          </Link>
+          <SignOut className="w-6 h-6 text-gray-900" />
         </button>
       </div>
     </div>
