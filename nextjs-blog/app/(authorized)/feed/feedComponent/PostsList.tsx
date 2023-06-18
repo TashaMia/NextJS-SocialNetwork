@@ -2,7 +2,6 @@
 
 import useGetPosts from "../../../useGetPosts";
 import Post from "./Post";
-import PostsListV2 from "./PostListV2";
 
 interface Post {
   id: number;
