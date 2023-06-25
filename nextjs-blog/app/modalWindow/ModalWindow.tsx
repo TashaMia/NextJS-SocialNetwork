@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import { modalWindow } from "../(authorized)/layout";
 import useMutateDeletePost from "../useMutateDeletePost";
 import { mutate } from "swr";
-export const modalWindowQuestion = atom("");
-export const idPost = atom(0);
+export const modalWindowQuestion = atom<string>("");
+export const idPost = atom<number>(0);
 
 export default function ModalWindow() {
   const router = useRouter();

@@ -5,8 +5,8 @@ import AddPost from "./addPostComponent/AddPost";
 import { atom, useAtom, useSetAtom } from "jotai";
 import ModalWindow, { modalWindowQuestion } from "../modalWindow/ModalWindow";
 import SideMenu from "./appComponent/SideMenu";
-export const textFieldAtom = atom(false);
-export const modalWindow = atom(false);
+export const textFieldAtom = atom<boolean>(false);
+export const modalWindow = atom<boolean>(false);
 
 export default function MenuLayout({
   children,

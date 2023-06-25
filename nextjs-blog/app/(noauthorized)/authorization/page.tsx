@@ -17,8 +17,8 @@ interface IUser {
   picture: string;
 }
 
-export const emailAt = atom("");
-export const passwordAt = atom("");
+export const emailAt = atom<string>("");
+export const passwordAt = atom<string>("");
 
 export default function Autorithation() {
   const router = useRouter();
