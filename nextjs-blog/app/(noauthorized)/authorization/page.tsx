@@ -6,7 +6,7 @@ import useGetUsers from "../../useGetUsers";
 import ModalWindow, {
   modalWindowQuestion,
 } from "../../modalWindow/ModalWindow";
-import { modalWindow } from "../../atoms";
+import { emailAt, modalWindow, passwordAt } from "../../atoms";
 
 interface IUser {
   email: string;
@@ -16,9 +16,6 @@ interface IUser {
   password: string;
   picture: string;
 }
-
-export const emailAt = atom<string>("");
-export const passwordAt = atom<string>("");
 
 export default function Autorithation() {
   const router = useRouter();
