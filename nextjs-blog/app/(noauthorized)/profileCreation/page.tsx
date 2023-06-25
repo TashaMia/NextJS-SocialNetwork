@@ -7,7 +7,7 @@ import useFileloader from "../../useFileLoader";
 
 import useGetUsers from "../../useGetUsers";
 import useMutateUsers from "../../useMutateUsers";
-import { emailAt, passwordAt } from "../authorization/page";
+import { emailAt, passwordAt } from "../../atoms";
 
 export default function ProfieCreation() {
   const [firstName, setFirstName] = useState("");
