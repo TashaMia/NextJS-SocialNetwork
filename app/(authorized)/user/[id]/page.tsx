@@ -8,9 +8,12 @@ import useFileloader from "../../../useFileLoader";
 import { FileImage, Spinner } from "@phosphor-icons/react";
 
 export default function User() {
-  const userId = localStorage.getItem("userId");
+  const userId =
+    typeof window != "undefined" ? localStorage.getItem("userId") : "";
+  const user =
+    typeof window != "undefined" ? localStorage.getItem("userId") : "";
   const params = useParams();
-  const userIndex = Number(localStorage.getItem("user"));
+  const userIndex = Number(user);
   const [isLogInUser, setIsLogInUser] = useState(false);
   useEffect(() => {
     if (params.id == userId) {
