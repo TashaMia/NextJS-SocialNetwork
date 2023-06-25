@@ -13,7 +13,8 @@ export default function MenuLayout({
   children: React.ReactNode;
 }) {
   const [openTextFiled, setOpenTextFiled] = useAtom(textFieldAtom);
-  const userId = localStorage.getItem("userId");
+  const userId =
+    typeof window != "undefined" ? localStorage?.getItem("userId") : "";
   const [modalWindowOpened, setModalWindowOpened] = useAtom(modalWindow);
   const modaWindowQue = useSetAtom(modalWindowQuestion);
 

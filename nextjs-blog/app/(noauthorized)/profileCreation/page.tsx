@@ -1,5 +1,5 @@
 "use client";
-import { FileImage } from "@phosphor-icons/react";
+import { FileImage, Spinner } from "@phosphor-icons/react";
 import { useAtomValue } from "jotai";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -37,11 +37,13 @@ export default function ProfieCreation() {
   function getLastName(event: React.FormEvent<HTMLInputElement>) {
     setLastName(event.currentTarget.value);
   }
+  const [loader, setLoader] = useState(false);
 
   const fileLoader = useFileloader(setNewUserImage);
   const { trigger, isMutating } = useMutateUsers();
   useEffect(() => {
-    fileLoader(userIndex, picture, setDone);
+    fileLoader(userIndex, picture, setDone, setLoader);
+    picture !== null && done !== "Done" ? setLoader(true) : setLoader(false);
   }, [picture]);
 
   const handleAddUser = () => {
@@ -56,26 +58,37 @@ export default function ProfieCreation() {
       },
     });
   };
+  console.log(picture);
+  console.log(done);
 
   return (
     <div className="flex flex-col items-center mt-2 mb-2 ">
       <div className="flex flex-col gap-8 w-92 items-start p-6">
         <h1 className="text-3xl">Создайте ваш профиль</h1>
-        <div>
-          <button
-            onClick={handlePick}
-            className=" w-28 h-28  fixed opacity-0 hover:opacity-100 hover:bg-slate-400/[0.2]"
-          >
-            <FileImage className=" h-8 ml-16 mt-20 w-6  text-slate-100 " />
-          </button>
+        <div className=" relative w-32 h-32">
+          {loader ? (
+            <button
+              onClick={handlePick}
+              className=" w-32 h-32  rounded-xl  fixed   hover:bg-slate-400/[0.2]"
+            >
+              <Spinner className=" h-10 ml-12 mt-10 w-10 opacity-100 text-black  animate-spin" />
+            </button>
+          ) : (
+            <button
+              onClick={handlePick}
+              className=" w-32 h-32  rounded-xl  fixed opacity-0 hover:opacity-100 hover:bg-slate-400/[0.2]"
+            >
+              <FileImage className=" h-8 ml-24 mt-24 w-6  text-black  " />
+            </button>
+          )}
           <img
             src={
               newUserImage
                 ? `https://firebasestorage.googleapis.com/v0/b/file-uploade.appspot.com/o/user-image-${userIndex}?alt=media&token=95f60686-e686-4cde-b037-83c58beec57e`
-                : "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png"
+                : "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-3.jpg"
             }
             alt="avatar"
-            className="w-28 h-28 object-cover"
+            className="w-32 h-32  rounded-xl object-cover"
           />
 
           <input

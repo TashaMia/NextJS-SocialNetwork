@@ -5,7 +5,7 @@ import PostsList from "../../feed/feedComponent/PostsList";
 import EditProfile from "./userComponents/EditProfile";
 import { useParams } from "next/navigation";
 import useFileloader from "../../../useFileLoader";
-import { FileImage } from "@phosphor-icons/react";
+import { FileImage, Spinner } from "@phosphor-icons/react";
 
 export default function User() {
   const userId = localStorage.getItem("userId");
@@ -38,9 +38,11 @@ export default function User() {
   }
 
   const fileLoader = useFileloader(setNewUserImage);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     fileLoader(userIndex, picture, setDone);
+    picture !== null && done !== "Done" ? setLoader(true) : setLoader(false);
   }, [picture]);
 
   if (done == "Done") {
@@ -52,28 +54,39 @@ export default function User() {
       <div className="flex justify-start items-center gap-14">
         <div className="flex flex-col">
           <div className=" flex justify-start gap-4 items-start p-4  ">
-            <img
-              src={
-                users
-                  ? users[0]?.picture
-                  : "https://avatars.mds.yandex.net/i?id=f2278dbde793622d022c098dbf4e22323a59974e-9233495-images-thumbs&n=13"
-              }
-              alt="user photo"
-              className="w-24 object-cover h-28 rounded-xl sm:w-28 sm:h-32 hover:opacity-50"
-            />{" "}
-            <button
-              onClick={handlePick}
-              className="fixed w-24 h-28 rounded-xl sm:w-28 sm:h-32 hover:bg-slate-400/[0.2]"
-            >
-              <FileImage className=" ml-16  mt-16 h-14 opacity-0 w-6 hover:opacity-100 text-slate-800 " />
-            </button>
-            <input
-              className="opacity-0 h-0 w-0 leading-[0px] overflow-hidden p-0 m-0"
-              ref={filePicker}
-              type="file"
-              onChange={handleChangeFiles}
-              accept="image/*,.png,.jpg,.gif"
-            />
+            <div className=" relative w-32 h-32">
+              {loader ? (
+                <button
+                  onClick={handlePick}
+                  className=" w-32 h-32  rounded-xl  fixed top-0  hover:bg-slate-400/[0.2]"
+                >
+                  <Spinner className=" h-10 ml-12 mt-10 w-10 opacity-100 text-black  animate-spin" />
+                </button>
+              ) : (
+                <button
+                  onClick={handlePick}
+                  className=" w-32 h-32  rounded-xl  fixed opacity-0 hover:opacity-100 hover:bg-slate-400/[0.2]"
+                >
+                  <FileImage className=" h-8 ml-24 mt-24 w-6  text-black  " />
+                </button>
+              )}
+              <img
+                src={
+                  users
+                    ? users[0]?.picture
+                    : "https://avatars.mds.yandex.net/i?id=f2278dbde793622d022c098dbf4e22323a59974e-9233495-images-thumbs&n=13"
+                }
+                alt="user photo"
+                className="w-24 object-cover h-28 rounded-xl sm:w-28 sm:h-32 hover:opacity-50"
+              />
+              <input
+                className="opacity-0 h-0 w-0 leading-[0px] overflow-hidden p-0 m-0"
+                ref={filePicker}
+                type="file"
+                onChange={handleChangeFiles}
+                accept="image/*,.png,.jpg,.gif"
+              />
+            </div>
             <div className="flex flex-col items-start">
               <div className="flex flex-row gap-1 font-semibold">
                 <p>{users && users[0]?.firstName}</p>

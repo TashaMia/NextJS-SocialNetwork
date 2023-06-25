@@ -19,7 +19,7 @@ export default function useFileloader(setNewUserImage?: any){
 
       
 
-      async function handleUpload(userIndex:number, picture: File|null, setDone:Dispatch<SetStateAction<string>>){
+      async function handleUpload(userIndex:number, picture: File|null, setDone:Dispatch<SetStateAction<string>>, setLoader?:Dispatch<SetStateAction<boolean>>){
         if(!picture){
             return;
         };       
@@ -28,6 +28,7 @@ export default function useFileloader(setNewUserImage?: any){
             uploadBytes(storageRef, picture).then((snapshot) => {
                 setNewUserImage(storageRef.bucket);
                 setDone('Done')
+                setLoader&&setLoader(false)
               });
         
        };

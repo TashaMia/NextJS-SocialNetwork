@@ -6,7 +6,8 @@ import { textFieldAtom } from "../../atoms";
 
 export default function SideMenu() {
   const setOpenTextFiled = useSetAtom(textFieldAtom);
-  const userId = localStorage.getItem("userId");
+  const userId =
+    typeof window != "undefined" ? localStorage.getItem("userId") : "";
 
   return (
     <div className="flex flex-col gap-4 justify-start items-start mt-20 w-[90%] sm:h-hv text-xl">
