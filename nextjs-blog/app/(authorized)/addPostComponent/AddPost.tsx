@@ -3,8 +3,9 @@ import { useSetAtom } from "jotai";
 import { CaretDown } from "@phosphor-icons/react";
 import { useRef } from "react";
 import useMutationPosts from "../../useMutationPosts";
-import { textFieldAtom } from "../layout";
+
 import { mutate } from "swr";
+import { textFieldAtom } from "../../atoms";
 
 export default function AddPost() {
   const refText = useRef<HTMLTextAreaElement>(null);

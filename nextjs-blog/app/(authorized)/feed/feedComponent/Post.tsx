@@ -5,9 +5,9 @@ import { mutate } from "swr";
 import useGetUsers from "../../../useGetUsers";
 import useMutateLikePost from "../../../useMutateLikePost";
 import { useSetAtom } from "jotai";
-import { modalWindow } from "../../layout";
 import { idPost, modalWindowQuestion } from "../../../modalWindow/ModalWindow";
 import useMutateNotifications from "../../../useMutateNotifications";
+import { modalWindow } from "../../../atoms";
 
 interface Body {
   text: string;

@@ -6,7 +6,7 @@ import useGetUsers from "../../useGetUsers";
 import ModalWindow, {
   modalWindowQuestion,
 } from "../../modalWindow/ModalWindow";
-import { modalWindow } from "../../(authorized)/layout";
+import { modalWindow } from "../../atoms";
 
 interface IUser {
   email: string;

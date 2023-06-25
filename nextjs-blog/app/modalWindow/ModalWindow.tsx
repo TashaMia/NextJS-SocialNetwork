@@ -1,9 +1,9 @@
 "use client";
 import { atom, useAtom, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
-import { modalWindow } from "../(authorized)/layout";
 import useMutateDeletePost from "../useMutateDeletePost";
 import { mutate } from "swr";
+import { modalWindow } from "../atoms";
 export const modalWindowQuestion = atom<string>("");
 export const idPost = atom<number>(0);
 

@@ -2,7 +2,7 @@
 import { Bell, HouseLine, Plus, UserCircle, User } from "@phosphor-icons/react";
 import Link from "next/link";
 import { useSetAtom } from "jotai";
-import { textFieldAtom } from "../layout";
+import { textFieldAtom } from "../../atoms";
 
 export default function SideMenu() {
   const setOpenTextFiled = useSetAtom(textFieldAtom);
