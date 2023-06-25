@@ -34,11 +34,11 @@ export default function EditProfile(props: IUser) {
   });
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col  p-2  items-start gap-2">
       <div>
         <p>Name:</p>
         <input
-          className=" border"
+          className=" border p-1 rounded-lg"
           type="text"
           value={firstName}
           onChange={editName}
@@ -47,7 +47,7 @@ export default function EditProfile(props: IUser) {
       <div>
         <p> Last Name: </p>
         <input
-          className=" border"
+          className=" border p-1 rounded-lg"
           type="text"
           value={lastName}
           onChange={editLastName}
@@ -57,8 +57,8 @@ export default function EditProfile(props: IUser) {
       <button
         className={
           firstName.length > 0 && lastName.length > 0
-            ? "p-2 ml-4 bg-violet-400 w-36 rounded-sm text-white text-normal h-10"
-            : "bg-gray-500 p-2 ml-4  w-36 rounded-sm text-white text-normal h-10"
+            ? "p-2  bg-violet-400 w-[100%] rounded-sm text-white text-normal h-10"
+            : "bg-gray-500 p-2  w-[100%] rounded-sm text-white text-normal h-10"
         }
         onClick={() => {
           if (firstName.length > 0 && lastName.length > 0) {

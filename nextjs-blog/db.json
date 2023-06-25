@@ -129,26 +129,8 @@
     {
       "text": "22",
       "user": "jkjdrg",
-      "liked": false,
+      "liked": true,
       "id": 24
-    },
-    {
-      "text": "23",
-      "user": "jkjdrg",
-      "liked": false,
-      "id": 25
-    },
-    {
-      "text": "24",
-      "user": "jkjdrg",
-      "liked": false,
-      "id": 26
-    },
-    {
-      "text": "25",
-      "user": "jkjdrg",
-      "liked": false,
-      "id": 27
     }
   ],
   "users": [
@@ -243,6 +225,54 @@
       "postLiked": 8,
       "liker": "jkjdrg",
       "id": 6
+    },
+    {
+      "userLiked": "jkjdrg",
+      "postLiked": 27,
+      "liker": "jkjdrg",
+      "id": 7
+    },
+    {
+      "userLiked": "jkjdrg",
+      "postLiked": 24,
+      "liker": "jkjdrg",
+      "id": 8
+    },
+    {
+      "userLiked": "jkjdrg",
+      "postLiked": 24,
+      "liker": "jkjdrg",
+      "id": 9
+    },
+    {
+      "userLiked": "jkjdrg",
+      "postLiked": 24,
+      "liker": "jkjdrg",
+      "id": 10
+    },
+    {
+      "userLiked": "jkjdrg",
+      "postLiked": 24,
+      "liker": "jkjdrg",
+      "id": 11
+    },
+    {
+      "userLiked": "jkjdrg",
+      "postLiked": 24,
+      "liker": "jkjdrg",
+      "id": 12
+    },
+    {
+      "userLiked": "jkjdrg",
+      "postLiked": 24,
+      "liker": "jkjdrg",
+      "id": 13
+    },
+    {
+      "userLiked": "jkjdrg",
+      "postLiked": 24,
+      "liker": "jkjdrg",
+      "id": 14
     }
   ]
 }

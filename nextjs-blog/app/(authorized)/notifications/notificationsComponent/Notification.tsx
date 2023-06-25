@@ -16,7 +16,7 @@ export default function Notification(props: ILiker) {
       <img
         src={users && users[0]?.picture}
         alt="liker"
-        className="w-100% h-14 w-14 rounded-xl bg-slate-100 md:h-20 md:w-20"
+        className="w-100% h-14 object-cover w-14 rounded-xl bg-slate-100 md:h-20 md:w-20"
       ></img>
       <p>
         Пользователь{" "}

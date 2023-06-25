@@ -49,55 +49,59 @@ export default function User() {
   }
   return (
     <div className="flex flex-col justify-start w-full  gap-4">
-      <div className=" flex justify-start gap-4 items-start p-4  ">
-        <img
-          src={
-            users
-              ? users[0]?.picture
-              : "https://avatars.mds.yandex.net/i?id=f2278dbde793622d022c098dbf4e22323a59974e-9233495-images-thumbs&n=13"
-          }
-          alt="user photo"
-          className="w-24 object-cover h-28 rounded-xl sm:w-28 sm:h-32 hover:opacity-50"
-        />{" "}
-        <button
-          onClick={handlePick}
-          className="fixed w-24 h-28 rounded-xl sm:w-28 sm:h-32 hover:bg-slate-400/[0.2]"
-        >
-          <FileImage className=" ml-16  mt-16 h-14 opacity-0 w-6 hover:opacity-100 text-slate-800 " />
-        </button>
-        <input
-          className="opacity-0 h-0 w-0 leading-[0px] overflow-hidden p-0 m-0"
-          ref={filePicker}
-          type="file"
-          onChange={handleChangeFiles}
-          accept="image/*,.png,.jpg,.gif"
-        />
-        <div className="flex flex-col items-start">
-          <div className="flex flex-row gap-1 font-semibold">
-            <p>{users && users[0]?.firstName}</p>
-            <p>{users && users[0]?.lastName}</p>
+      <div className="flex justify-start items-center gap-14">
+        <div className="flex flex-col">
+          <div className=" flex justify-start gap-4 items-start p-4  ">
+            <img
+              src={
+                users
+                  ? users[0]?.picture
+                  : "https://avatars.mds.yandex.net/i?id=f2278dbde793622d022c098dbf4e22323a59974e-9233495-images-thumbs&n=13"
+              }
+              alt="user photo"
+              className="w-24 object-cover h-28 rounded-xl sm:w-28 sm:h-32 hover:opacity-50"
+            />{" "}
+            <button
+              onClick={handlePick}
+              className="fixed w-24 h-28 rounded-xl sm:w-28 sm:h-32 hover:bg-slate-400/[0.2]"
+            >
+              <FileImage className=" ml-16  mt-16 h-14 opacity-0 w-6 hover:opacity-100 text-slate-800 " />
+            </button>
+            <input
+              className="opacity-0 h-0 w-0 leading-[0px] overflow-hidden p-0 m-0"
+              ref={filePicker}
+              type="file"
+              onChange={handleChangeFiles}
+              accept="image/*,.png,.jpg,.gif"
+            />
+            <div className="flex flex-col items-start">
+              <div className="flex flex-row gap-1 font-semibold">
+                <p>{users && users[0]?.firstName}</p>
+                <p>{users && users[0]?.lastName}</p>
+              </div>
+              <p>{users && users[0]?.gender}</p>
+              <p className="text-violet-700">#{userId}</p>
+            </div>
           </div>
-          <p>{users && users[0]?.gender}</p>
-          <p className="text-violet-700">#{userId}</p>
+          <div className="flex">
+            {!isLogInUser ? (
+              <button className="p-2 ml-4 bg-gray-800 w-32 rounded-sm text-white text-normal">
+                Подписаться
+              </button>
+            ) : (
+              <button
+                className="bg-gray-500 p-2 ml-4  w-36 rounded-sm text-white text-normal h-10"
+                onClick={() => {
+                  setEditIsVisible(!editIsVisible);
+                }}
+              >
+                Редактировать
+              </button>
+            )}
+          </div>
         </div>
+        {editIsVisible && <EditProfile data={users[0] && users[0]} />}
       </div>
-      <div className="flex">
-        {!isLogInUser ? (
-          <button className="p-2 ml-4 bg-gray-800 w-32 rounded-sm text-white text-normal">
-            Подписаться
-          </button>
-        ) : (
-          <button
-            className="bg-gray-500 p-2 ml-4  w-36 rounded-sm text-white text-normal h-10"
-            onClick={() => {
-              setEditIsVisible(!editIsVisible);
-            }}
-          >
-            Редактировать
-          </button>
-        )}
-      </div>
-      {editIsVisible && <EditProfile data={users[0] && users[0]} />}
       <div className="h-[1px] bg-slate-300"> </div>
       <PostsList isFilter={true} filter={params.id} />
     </div>

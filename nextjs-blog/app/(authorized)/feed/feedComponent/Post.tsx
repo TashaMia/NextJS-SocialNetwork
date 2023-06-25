@@ -59,6 +59,7 @@ export default function Post(props: Post) {
     <div className="flex flex-col rounded-xl border border-1 w-[100%]  p-6 gap-2 my-4 ">
       <div className="w-[100%] flex items-end justify-end">
         <X
+          className="cursor-pointer"
           onClick={() => {
             modaWindowQue("Вы уверены что хотите удалить пост?");
             modaWindowVisible(true);
@@ -88,28 +89,30 @@ export default function Post(props: Post) {
       <div className="text-start gap-2 flex flex-col">
         <p className=" text-start w-[95%]">{props.textOfPost}</p>
       </div>
-      <button
-        className="flex justify-end  w-[100%]"
-        onClick={() => {
-          trigger(
-            { id: props.id, patch: likedPostObj },
-            {
-              onSuccess: () => {
-                mutate(
-                  (key) => typeof key == "string" && key?.includes("posts")
-                );
-              },
-            }
-          );
-
-          if (!props.liked) {
-            handleAddNotifications(props.user, props.id);
-          }
-        }}
-      >
+      <button className="flex justify-end  cursor-default w-[100%]">
         <Heart
+          onClick={() => {
+            trigger(
+              { id: props.id, patch: likedPostObj },
+              {
+                onSuccess: () => {
+                  mutate(
+                    (key) => typeof key == "string" && key?.includes("posts")
+                  );
+                },
+              }
+            );
+
+            if (!props.liked) {
+              handleAddNotifications(props.user, props.id);
+            }
+          }}
           weight={props.liked ? "fill" : "regular"}
-          className={props.liked ? "text-red-600 text-2xl" : " text-xl"}
+          className={
+            props.liked
+              ? "text-red-600 text-2xl cursor-pointer"
+              : " text-xl cursor-pointer"
+          }
         />
       </button>
     </div>
