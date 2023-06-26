@@ -1,6 +1,7 @@
 "use client";
 
 import useGetPosts from "../../../useGetPosts";
+import useGetPostsV2 from "../../../useGetPostsV2";
 import Post from "./Post";
 
 interface Post {
@@ -15,7 +16,10 @@ interface IFilter {
 }
 
 export default function PostsList(props: IFilter) {
-  const posts = useGetPosts({ isFilter: props.isFilter, filter: props.filter });
+  const posts = useGetPostsV2({
+    isFilter: props.isFilter,
+    filter: props.filter,
+  });
 
   return (
     <div className="feed w-screen  sm:w-full">
