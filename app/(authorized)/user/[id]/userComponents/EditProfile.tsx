@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import useMutateEditUser from "../../../../useMutateEditUser";
+import useMutateEditUserV2 from "../../../../useMutateEditUserV2";
+import { mutate } from "swr";
 // import { useChangeUserInfoMutation } from "./usersApi";
 interface IUser {
   data: {
@@ -10,13 +12,15 @@ interface IUser {
     password: string;
     picture: string;
   };
+  setEditIsVisible: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function EditProfile(props: IUser) {
+  console.log(props);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  const { trigger } = useMutateEditUser();
+  const { trigger } = useMutateEditUserV2();
 
   const userIndex = localStorage.getItem("user");
 
@@ -30,7 +34,6 @@ export default function EditProfile(props: IUser) {
   const changeUserInfoObj = Object.assign({}, props.data, {
     firstName: firstName,
     lastName: lastName,
-    picture: `https://firebasestorage.googleapis.com/v0/b/file-uploade.appspot.com/o/user-image-${userIndex}?alt=media&token=95f60686-e686-4cde-b037-83c58beec57e`,
   });
 
   return (
@@ -62,9 +65,19 @@ export default function EditProfile(props: IUser) {
         }
         onClick={() => {
           if (firstName.length > 0 && lastName.length > 0) {
-            trigger({ id: props.data.id, patch: changeUserInfoObj });
-            location.reload();
+            trigger(
+              { id: props.data.id, patch: changeUserInfoObj },
+              {
+                onSuccess: () => {
+                  mutate(
+                    (key: string[]) =>
+                      Array.isArray(key) && key?.[0]?.includes(`users`)
+                  );
+                },
+              }
+            );
           }
+          props.setEditIsVisible(false);
         }}
       >
         Сохранить

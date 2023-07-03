@@ -1,12 +1,13 @@
 "use client";
 import useGetUsers from "../../../useGetUsers";
+import useGetUsersV2 from "../../../useGetUsersV2";
 
 interface ILiker {
   liker: string;
 }
 
 export default function Notification(props: ILiker) {
-  const users = useGetUsers({
+  const users = useGetUsersV2({
     isFilter: true,
     filter: props.liker,
   });

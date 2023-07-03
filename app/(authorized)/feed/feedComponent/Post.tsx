@@ -8,6 +8,9 @@ import { useSetAtom } from "jotai";
 import { idPost, modalWindowQuestion } from "../../../modalWindow/ModalWindow";
 import useMutateNotifications from "../../../useMutateNotifications";
 import { modalWindow } from "../../../atoms";
+import useGetUsersV2 from "../../../useGetUsersV2";
+import { useEffect, useState } from "react";
+import useMutateLikePostV2 from "../../../useMutateLikePostV2";
 
 interface Body {
   text: string;
@@ -25,11 +28,13 @@ interface Post {
 }
 
 export default function Post(props: Post) {
-  const users = useGetUsers({
+  const users = useGetUsersV2({
     isFilter: true,
     filter: props.user,
   });
-  const { trigger } = useMutateLikePost();
+
+  console.log(users);
+  const { trigger } = useMutateLikePostV2();
   const { trigger: notifications, isMutating } = useMutateNotifications();
   const likedPostObj = Object.assign({}, props.body, {
     liked: props.body.liked ? false : true,
@@ -54,6 +59,7 @@ export default function Post(props: Post) {
       }
     );
   };
+  const id = props.user.slice(0, 7);
 
   return (
     <div className="flex flex-col rounded-xl border border-1 w-[100%]  p-6 gap-2 my-4 ">
@@ -81,7 +87,7 @@ export default function Post(props: Post) {
                 <p>{users && users[0]?.lastName}</p>
               </div>
 
-              <p className="text-gray-500">#{props.user}</p>
+              <p className="text-gray-500">#{id}</p>
             </div>
           </div>
         </Link>
@@ -97,7 +103,8 @@ export default function Post(props: Post) {
               {
                 onSuccess: () => {
                   mutate(
-                    (key) => typeof key == "string" && key?.includes("posts")
+                    (key: string[]) =>
+                      Array.isArray(key) && key?.[0]?.includes(`posts`)
                   );
                 },
               }

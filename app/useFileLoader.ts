@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { SetStateAction } from 'jotai';
 import { Dispatch } from 'react';
+// import useChangeUserPicture from './useChangeUserPicture';
 
 export default function useFileloader(setNewUserImage?: any){
 
@@ -19,7 +20,7 @@ export default function useFileloader(setNewUserImage?: any){
 
       
 
-      async function handleUpload(userIndex:number, picture: File|null, setDone:Dispatch<SetStateAction<string>>, setLoader?:Dispatch<SetStateAction<boolean>>){
+      async function handleUpload(userIndex:string|null, picture: File|null, setDone:Dispatch<SetStateAction<string>>, setLoader?:Dispatch<SetStateAction<boolean>>){
         if(!picture){
             return;
         };       
@@ -32,5 +33,7 @@ export default function useFileloader(setNewUserImage?: any){
               });
         
        };
+      //  useChangeUserPicture()
+
        return handleUpload
 }

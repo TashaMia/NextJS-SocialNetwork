@@ -1,17 +1,18 @@
 "use client";
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { CaretDown } from "@phosphor-icons/react";
 import { useRef } from "react";
 import useMutationPosts from "../../useMutationPosts";
 
 import { mutate } from "swr";
 import { textFieldAtom } from "../../atoms";
+import useMutatePostsV2 from "../../useMutatePostsV2";
 
 export default function AddPost() {
   const refText = useRef<HTMLTextAreaElement>(null);
   const textFieldVisible = useSetAtom(textFieldAtom);
   const userId = localStorage.getItem("userId");
-  const { trigger, isMutating } = useMutationPosts();
+  const { trigger, isMutating } = useMutatePostsV2();
   const handleAddPost = () => {
     if (refText.current?.value) {
       trigger(
@@ -24,7 +25,10 @@ export default function AddPost() {
         },
         {
           onSuccess: () => {
-            mutate((key) => typeof key == "string" && key?.includes("posts"));
+            mutate(
+              (key: string[]) =>
+                Array.isArray(key) && key?.[0]?.includes(`posts`)
+            );
           },
         }
       );
@@ -33,7 +37,7 @@ export default function AddPost() {
   };
 
   return (
-    <div className="h-72 w-[96%] flex border border-stone-400 mb-96 ml-2 border-solid flex-col justify-start items-center rounded-lg bg-slate-100 fixed">
+    <div className="h-72 w-[96%] z-10 flex border border-stone-400 mb-96 ml-2 border-solid flex-col justify-start items-center rounded-lg bg-slate-100 fixed">
       <div className="w-[90%] flex justify-end mt-4">
         <button onClick={() => textFieldVisible(false)}>
           <CaretDown />

@@ -2,10 +2,11 @@
 import { HouseLine, Bell, Plus, User, SignOut } from "@phosphor-icons/react";
 import Link from "next/link";
 import AddPost from "./addPostComponent/AddPost";
-import { atom, useAtom, useSetAtom } from "jotai";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import ModalWindow, { modalWindowQuestion } from "../modalWindow/ModalWindow";
 import SideMenu from "./appComponent/SideMenu";
 import { modalWindow, textFieldAtom } from "../atoms";
+import { SetStateAction, useEffect, useState } from "react";
 
 export default function MenuLayout({
   children,
@@ -13,11 +14,15 @@ export default function MenuLayout({
   children: React.ReactNode;
 }) {
   const [openTextFiled, setOpenTextFiled] = useAtom(textFieldAtom);
-  const userId =
-    typeof window != "undefined" ? localStorage?.getItem("userId") : "";
+  const [userId, setUserId] = useState<SetStateAction<string | null>>("");
+
   const [modalWindowOpened, setModalWindowOpened] = useAtom(modalWindow);
   const modaWindowQue = useSetAtom(modalWindowQuestion);
-
+  setTimeout(() => {
+    const user =
+      typeof window != "undefined" ? localStorage?.getItem("userId") : "";
+    setUserId(user);
+  }, 1000);
   return (
     <div className="sm:h-[100%]">
       {modalWindowOpened && <ModalWindow />}
@@ -47,6 +52,7 @@ export default function MenuLayout({
             modaWindowQue("Вы уверены что хотите выйти?");
 
             setModalWindowOpened(true);
+            localStorage.removeItem("userId");
           }}
         >
           <SignOut className="w-6 h-6 text-gray-900" />

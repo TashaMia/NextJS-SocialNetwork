@@ -58,8 +58,8 @@ export default function ProfieCreation() {
       },
     });
   };
-  console.log(picture);
-  console.log(done);
+  // console.log(picture);
+  // console.log(done);
 
   return (
     <div className="flex flex-col items-center mt-2 mb-2 ">
