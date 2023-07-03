@@ -52,6 +52,7 @@ export default function AuthorizationV2() {
       email: email,
       options: {
         emailRedirectTo: "https://fabulous-crepe-e57f8b.netlify.app/feed",
+        // emailRedirectTo: "http://localhost:3002/feed",
       },
     });
     // console.log(data);
