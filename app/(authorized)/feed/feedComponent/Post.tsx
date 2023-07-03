@@ -59,7 +59,7 @@ export default function Post(props: Post) {
       }
     );
   };
-  const id = props.user.slice(0, 7);
+  const id = props.user?.slice(0, 7);
 
   return (
     <div className="flex flex-col rounded-xl border border-1 w-[100%]  p-6 gap-2 my-4 ">

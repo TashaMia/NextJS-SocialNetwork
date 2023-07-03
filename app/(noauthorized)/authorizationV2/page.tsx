@@ -51,7 +51,7 @@ export default function AuthorizationV2() {
     const { data, error } = await supabase.auth.signInWithOtp({
       email: email,
       options: {
-        emailRedirectTo: "https://fabulous-crepe-e57f8b.netlify.app/feed",
+        emailRedirectTo: "http://localhost:3002/feed",
       },
     });
     // console.log(data);

@@ -127,7 +127,7 @@ export default function User() {
                 <p>{users && users[0]?.lastName}</p>
               </div>
               <p>{users && users[0]?.gender}</p>
-              <p className="text-violet-700">#{params.id.slice(0, 7)}</p>
+              <p className="text-violet-700">#{params.id?.slice(0, 7)}</p>
             </div>
           </div>
           <div className="flex">
