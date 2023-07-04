@@ -8,6 +8,7 @@ import ModalWindow, {
 } from "../../modalWindow/ModalWindow";
 import { emailAt, modalWindow, passwordAt } from "../../atoms";
 import { createClient } from "@supabase/supabase-js";
+import { Spinner } from "@phosphor-icons/react";
 
 interface IUser {
   email: string;
@@ -52,11 +53,10 @@ export default function AuthorizationV2() {
       email: email,
       options: {
         emailRedirectTo: "https://next-js-social-network-steel.vercel.app/feed",
-        // emailRedirectTo: "http://localhost:3002/feed",
       },
     });
-    // console.log(data);
   }
+  const [btn, setBtn] = useState("Отправить");
 
   return (
     <div>
@@ -65,7 +65,7 @@ export default function AuthorizationV2() {
       <div className="flex flex-col items-center">
         <div className="w-screen p-4 flex flex-col justify-center items-center gap-2">
           <h1 className="text-xl ">
-            <b>Welcome to Rob - service of microblogs</b>
+            <b>Добро пожаловать в Роб - сервис микроблогов.</b>
           </h1>
         </div>
         <div className="border border-slate-600 w-80 h-96  rounded-xl ">
@@ -90,10 +90,14 @@ export default function AuthorizationV2() {
               type="button"
               onClick={() => {
                 logIn();
+                setBtn(`Отпрвление ${(<Spinner className=" animate-spin" />)}`);
+                setTimeout(() => {
+                  setBtn("Отправлено");
+                }, 4000);
               }}
               className="h-12 flex justify-center items-center p-4 w-[90%] text-white rounded-3xl border border-slate-600 bg-slate-400 "
             >
-              Войти
+              {btn}
             </button>
           </div>
         </div>
