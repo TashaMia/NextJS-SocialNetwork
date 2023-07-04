@@ -55,7 +55,10 @@ export default function Post(props: Post) {
       },
       {
         onSuccess: () => {
-          mutate((key) => typeof key == "string" && key?.includes("posts"));
+          mutate(
+            (key: string[]) =>
+              Array.isArray(key) && key?.[0]?.includes(`notifications`)
+          );
         },
       }
     );

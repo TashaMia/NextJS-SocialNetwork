@@ -93,10 +93,10 @@ export default function AuthorizationV2() {
                 setBtn(`Отпрвление...`);
                 setTimeout(() => {
                   setBtn("Отправлено");
-                }, 5000);
+                }, 7000);
                 setTimeout(() => {
                   setBtn("Отправить");
-                }, 10000);
+                }, 15000);
               }}
               className="h-12 flex justify-center items-center p-4 w-[90%] text-white rounded-3xl border border-slate-600 bg-slate-400 "
             >

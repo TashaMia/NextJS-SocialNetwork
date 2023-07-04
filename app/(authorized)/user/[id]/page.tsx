@@ -96,7 +96,7 @@ export default function User() {
                     changeUserPicture();
                     handlePick();
                   }}
-                  className=" w-32 h-32  rounded-xl  fixed opacity-0 hover:opacity-100 hover:bg-slate-400/[0.2]"
+                  className=" w-28 h-28  rounded-xl  fixed opacity-0 hover:opacity-100 hover:bg-slate-400/[0.2]"
                 >
                   <FileImage className=" h-8 ml-24 mt-24 w-6  text-black  " />
                 </button>
@@ -110,7 +110,7 @@ export default function User() {
                       : "https://avatars.mds.yandex.net/i?id=f2278dbde793622d022c098dbf4e22323a59974e-9233495-images-thumbs&n=13"
                   }
                   alt="user photo"
-                  className="w-24 object-cover h-28 rounded-xl sm:w-28 sm:h-32 hover:opacity-50"
+                  className="w-28 object-cover h-28 rounded-xl sm:w-28 sm:h-28 hover:opacity-50"
                 />
               )}
 
