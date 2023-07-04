@@ -11,6 +11,7 @@ import { modalWindow } from "../../../atoms";
 import useGetUsersV2 from "../../../useGetUsersV2";
 import { useEffect, useState } from "react";
 import useMutateLikePostV2 from "../../../useMutateLikePostV2";
+import useMutateNotificationsV2 from "../../../useMutateNotificationsV2";
 
 interface Body {
   text: string;
@@ -35,7 +36,7 @@ export default function Post(props: Post) {
 
   console.log(users);
   const { trigger } = useMutateLikePostV2();
-  const { trigger: notifications, isMutating } = useMutateNotifications();
+  const { trigger: notifications, isMutating } = useMutateNotificationsV2();
   const likedPostObj = Object.assign({}, props.body, {
     liked: props.body.liked ? false : true,
   });

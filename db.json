@@ -360,6 +360,12 @@
       "postLiked": 7,
       "liker": "ee1cab30-6c13-433f-a782-1da6efcf7ad6",
       "id": 24
+    },
+    {
+      "userLiked": "2bcde8bc-c4de-4d6c-b5d2-34e70e592ffa",
+      "postLiked": 11,
+      "liker": "2bcde8bc-c4de-4d6c-b5d2-34e70e592ffa",
+      "id": 25
     }
   ]
 }
