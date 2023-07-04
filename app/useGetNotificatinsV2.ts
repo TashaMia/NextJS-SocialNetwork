@@ -10,12 +10,12 @@ export default function useGetNotificationsV2({isFilter, filter}:IFilter) {
 async function getNotifications(params: string) {
 
     let query = supabase.from(`${params}`).select("*")  .order('created_at', { ascending: false })
-         if(isFilter==true){query = query.eq("notifications", `${filter}`)}
+         if(isFilter==true){query = query.eq("userLiked", `${filter}`)}
           const {data, error}= await query
         
         return data
 }
- const { data, error, isLoading } = useSWR(`notifications?${isFilter?`userLiked=${filter}`: ''}`, getNotifications)
+ const { data, error, isLoading } = useSWR(`notifications`, getNotifications)
  
  return data
 }
