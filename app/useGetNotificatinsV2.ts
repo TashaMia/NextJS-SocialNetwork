@@ -10,7 +10,7 @@ export default function useGetNotificationsV2({isFilter, filter}:IFilter) {
 async function getNotifications(params: string) {
 
     let query = supabase.from(`${params}`).select("*")  .order('created_at', { ascending: false })
-         if(isFilter==true){query = query.eq("user", `${filter}`)}
+         if(isFilter==true){query = query.eq("notifications", `${filter}`)}
           const {data, error}= await query
         
         return data
