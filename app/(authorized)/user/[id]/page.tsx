@@ -2,7 +2,7 @@
 import { ChangeEvent, useEffect, useReducer, useRef, useState } from "react";
 import useGetUsers from "../../../useGetUsers";
 import PostsList from "../../feed/feedComponent/PostsList";
-import EditProfile from "./userComponents/EditProfile";
+// import EditProfile from "./userComponents/EditProfile";
 import { useParams } from "next/navigation";
 import useFileloader from "../../../useFileLoader";
 import { FileImage, Spinner } from "@phosphor-icons/react";
@@ -10,6 +10,7 @@ import useGetUsersV2 from "../../../useGetUsersV2";
 import { createClient } from "@supabase/supabase-js";
 import useMutateUsersV2 from "../../../useMutateUsersV2";
 import useGetRegistrationStatus from "../../../useGetRegistrationStatus";
+import EditProfile from "../userComponents/EditProfile";
 
 export default function User() {
   const supabase = createClient(
