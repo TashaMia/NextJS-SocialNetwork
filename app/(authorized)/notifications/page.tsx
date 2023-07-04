@@ -1,4 +1,5 @@
 "use client";
+import useGetNotificationsV2 from "../../useGetNotificatinsV2";
 import useGetNotifications from "../../useGetNotifications";
 import Notification from "./notificationsComponent/Notification";
 
@@ -12,7 +13,7 @@ interface INotifications {
 export default function NotificationSection() {
   const userIsOnline =
     typeof window != "undefined" ? localStorage.getItem("userId") : "";
-  const notifications = useGetNotifications({
+  const notifications = useGetNotificationsV2({
     isFilter: true,
     filter: userIsOnline,
   });
@@ -23,7 +24,7 @@ export default function NotificationSection() {
         <h1 className="p-4 border-b flex flex-col justify-center items-center border-slate-200 w-[100%] text-slate-600">
           Notification
         </h1>
-        {notifications?.length > 0 ? (
+        {notifications && notifications?.length > 0 ? (
           <ul className="sm:w-[100%]  flex flex-col gap-2 mt-2">
             {notifications.map((item: INotifications) => (
               <li key={item?.id} className="md:w-[100%]">

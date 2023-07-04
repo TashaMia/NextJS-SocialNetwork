@@ -90,10 +90,13 @@ export default function AuthorizationV2() {
               type="button"
               onClick={() => {
                 logIn();
-                setBtn(`Отпрвление ${(<Spinner className=" animate-spin" />)}`);
+                setBtn(`Отпрвление...`);
                 setTimeout(() => {
                   setBtn("Отправлено");
-                }, 4000);
+                }, 5000);
+                setTimeout(() => {
+                  setBtn("Отправить");
+                }, 10000);
               }}
               className="h-12 flex justify-center items-center p-4 w-[90%] text-white rounded-3xl border border-slate-600 bg-slate-400 "
             >
