@@ -17,7 +17,6 @@ export default function NotificationSection() {
     isFilter: true,
     filter: userIsOnline,
   });
-  console.log(notifications);
 
   return (
     <div className="feed w-screen  sm:w-full">

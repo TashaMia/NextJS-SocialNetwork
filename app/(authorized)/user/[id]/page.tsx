@@ -8,8 +8,8 @@ import useFileloader from "../../../useFileLoader";
 import { FileImage, Spinner } from "@phosphor-icons/react";
 import useGetUsersV2 from "../../../useGetUsersV2";
 import { createClient } from "@supabase/supabase-js";
-import useMutateUsersV2 from "../../../useMutateUsersV2";
-import useGetRegistrationStatus from "../../../useGetRegistrationStatus";
+// import useMutateUsersV2 from "../../../useMutateUsersV2";
+// import useGetRegistrationStatus from "../../../useGetRegistrationStatus";
 import EditProfile from "../userComponents/EditProfile";
 
 export default function User() {
@@ -34,7 +34,7 @@ export default function User() {
     if (params.id == userId) {
       setIsLogInUser(true);
     }
-  });
+  }, []);
 
   const users = useGetUsersV2({
     isFilter: true,
@@ -74,7 +74,6 @@ export default function User() {
       })
       .eq("id", userId)
       .select();
-    console.log(data);
   }
 
   return (
@@ -129,6 +128,20 @@ export default function User() {
               </div>
               <p>{users && users[0]?.gender}</p>
               <p className="text-violet-700">#{params.id?.slice(0, 7)}</p>
+              <div className="flex justify-start items-start w-[100%] gap-4 mt-4">
+                <div className="flex flex-col justify-center items-center text-sm">
+                  <p>22</p>
+                  <p>Подписчика</p>
+                </div>
+                <div className="flex flex-col justify-center items-center text-sm">
+                  <p>11</p>
+                  <p>Подписок</p>
+                </div>
+                {/* <div className="flex flex-col justify-center items-center text-xs">
+                  <p>44</p>
+                  <p>Постов</p>
+                </div> */}
+              </div>
             </div>
           </div>
           <div className="flex">

@@ -1,9 +1,9 @@
 "use client";
-import useGetRegistrationStatus from "../../useGetRegistrationStatus";
+// import useGetRegistrationStatus from "../../useGetRegistrationStatus";
 import PostsList from "./feedComponent/PostsList";
 
 export default function CommonFeed() {
-  const status = useGetRegistrationStatus();
+  // const status = useGetRegistrationStatus();
   // console.log(status);
   return (
     <div className="feed">

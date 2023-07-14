@@ -5,6 +5,10 @@ import useGetPosts from "../../../useGetPosts";
 import useGetPostsV2 from "../../../useGetPostsV2";
 import Post from "./Post";
 import { useEffect, useState } from "react";
+import { modalComm, userWhoIsCommenting } from "../../../atoms";
+import ModalComments from "../ModalComments";
+import { useSetAtom } from "jotai";
+import { ViewportList } from "react-viewport-list";
 
 interface Post {
   id: number;
@@ -22,24 +26,23 @@ export default function PostsList(props: IFilter) {
     isFilter: props.isFilter,
     filter: props.filter,
   });
-  // console.log(props.isFilter);
+  const postList = posts.data as Post[];
 
   return (
     <div className="feed w-screen  sm:w-full">
       <div className="w-[100%] sm:w-[100%] sm:ml-2 mb-24 flex flex-col justify-center items-center">
-        <ul className="sm:w-[95%] w-[90%]">
-          {posts.data?.map((item: Post) => (
-            <li key={item.id}>
-              <Post
-                id={item.id}
-                textOfPost={item.text}
-                user={item.user}
-                liked={item.liked}
-                body={item}
-              />
-            </li>
-          ))}
-        </ul>
+        <ViewportList items={postList}>
+          {(item) => (
+            <Post
+              key={item.id}
+              id={item.id}
+              textOfPost={item.text}
+              user={item.user}
+              liked={item.liked}
+              body={item}
+            />
+          )}
+        </ViewportList>
       </div>
     </div>
   );

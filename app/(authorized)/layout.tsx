@@ -5,8 +5,9 @@ import AddPost from "./addPostComponent/AddPost";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import ModalWindow, { modalWindowQuestion } from "../modalWindow/ModalWindow";
 import SideMenu from "./appComponent/SideMenu";
-import { modalWindow, textFieldAtom } from "../atoms";
+import { modalComm, modalWindow, textFieldAtom } from "../atoms";
 import { SetStateAction, useEffect, useState } from "react";
+import ModalComments from "./feed/ModalComments";
 
 export default function MenuLayout({
   children,
@@ -15,7 +16,7 @@ export default function MenuLayout({
 }) {
   const [openTextFiled, setOpenTextFiled] = useAtom(textFieldAtom);
   const [userId, setUserId] = useState<SetStateAction<string | null>>("");
-
+  const commentWindowOpen = useAtomValue(modalComm);
   const [modalWindowOpened, setModalWindowOpened] = useAtom(modalWindow);
   const modaWindowQue = useSetAtom(modalWindowQuestion);
   setTimeout(() => {
@@ -25,6 +26,8 @@ export default function MenuLayout({
   }, 1000);
   return (
     <div className="sm:h-[100%]">
+      {commentWindowOpen && <ModalComments />}
+
       {modalWindowOpened && <ModalWindow />}
       {openTextFiled && <AddPost />}
       <div className="flex">
@@ -33,7 +36,7 @@ export default function MenuLayout({
         </div>
         <div className="sm:w-[70%] w-[100%]"> {children}</div>
       </div>
-      <div className="sm:hidden fixed w-screen px-2  flex justify-between items-center  bottom-0 h-16 border-t border-t-slate-200 bg-white">
+      <div className="sm:hidden fixed w-screen px-2 z-0 flex justify-between items-center  bottom-0 h-16 border-t border-t-slate-200 bg-white">
         <Link href="/feed">
           <HouseLine className="text-gray-900  w-6 h-6" />
         </Link>

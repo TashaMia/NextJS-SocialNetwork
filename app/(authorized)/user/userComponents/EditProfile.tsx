@@ -17,7 +17,6 @@ interface IUser {
 }
 
 export default function EditProfile(props: IUser) {
-  console.log(props);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 

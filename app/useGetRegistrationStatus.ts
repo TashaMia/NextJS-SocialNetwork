@@ -15,7 +15,10 @@ const supabase = createClient(
         checkIfUserIsRegistered(user.user?.email, user.user?.id);  
 
       }
-      getUser();
+useEffect(()=>{
+  getUser();
+},[])
+     
 
       async function checkIfUserIsRegistered(email:string|undefined, id:string|undefined) {
           let query = supabase.from(`users`).select("*").eq("id", id);

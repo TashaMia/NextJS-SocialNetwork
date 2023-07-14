@@ -1,17 +1,25 @@
 "use client";
-import { Heart, X } from "@phosphor-icons/react";
+import { ChatCircleText, Heart, X } from "@phosphor-icons/react";
 import Link from "next/link";
 import { mutate } from "swr";
 import useGetUsers from "../../../useGetUsers";
 import useMutateLikePost from "../../../useMutateLikePost";
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { idPost, modalWindowQuestion } from "../../../modalWindow/ModalWindow";
 import useMutateNotifications from "../../../useMutateNotifications";
-import { modalWindow } from "../../../atoms";
+import {
+  modalComm,
+  modalWindow,
+  openComments,
+  postID,
+  userWhoIsCommenting,
+} from "../../../atoms";
 import useGetUsersV2 from "../../../useGetUsersV2";
 import { useEffect, useState } from "react";
 import useMutateLikePostV2 from "../../../useMutateLikePostV2";
 import useMutateNotificationsV2 from "../../../useMutateNotificationsV2";
+import useGetComments from "../../../useGetComments";
+import CommentSection from "../CommentSection";
 
 interface Body {
   text: string;
@@ -34,7 +42,6 @@ export default function Post(props: Post) {
     filter: props.user,
   });
 
-  console.log(users);
   const { trigger } = useMutateLikePostV2();
   const { trigger: notifications, isMutating } = useMutateNotificationsV2();
   const likedPostObj = Object.assign({}, props.body, {
@@ -65,8 +72,18 @@ export default function Post(props: Post) {
   };
   const id = props.user?.slice(0, 7);
 
+  const [comments, setComments] = useState(false);
+
+  const commentModal = useSetAtom(modalComm);
+  const user = useSetAtom(userWhoIsCommenting);
+  const post = useSetAtom(postID);
   return (
-    <div className="flex flex-col rounded-xl border border-1 w-[100%]  p-6 gap-2 my-4 ">
+    <div
+      className="flex flex-col rounded-xl border border-1 w-[100%]  p-6 gap-2 my-4 "
+      onClick={() => {
+        setComments(!comments);
+      }}
+    >
       <div className="w-[100%] flex items-end justify-end">
         <X
           className="cursor-pointer"
@@ -99,33 +116,46 @@ export default function Post(props: Post) {
       <div className="text-start gap-2 flex flex-col">
         <p className=" text-start w-[95%]">{props.textOfPost}</p>
       </div>
-      <button className="flex justify-end  cursor-default w-[100%]">
-        <Heart
+      <div className="flex text-slate-400  justify-start gap-2 w-[100%] items-center">
+        <button
           onClick={() => {
-            trigger(
-              { id: props.id, patch: likedPostObj },
-              {
-                onSuccess: () => {
-                  mutate(
-                    (key: string[]) =>
-                      Array.isArray(key) && key?.[0]?.includes(`posts`)
-                  );
-                },
-              }
-            );
-
-            if (!props.liked) {
-              handleAddNotifications(props.user, props.id);
-            }
+            commentModal(true);
+            user(props.user);
+            post(props.id);
+            console.log(props.id);
           }}
-          weight={props.liked ? "fill" : "regular"}
-          className={
-            props.liked
-              ? "text-red-600 text-2xl cursor-pointer"
-              : " text-xl cursor-pointer"
-          }
-        />
-      </button>
+        >
+          <ChatCircleText className="w-5 h-5" />
+        </button>
+        <button className="flex justify-end  cursor-default">
+          <Heart
+            onClick={() => {
+              trigger(
+                { id: props.id, patch: likedPostObj },
+                {
+                  onSuccess: () => {
+                    mutate(
+                      (key: string[]) =>
+                        Array.isArray(key) && key?.[0]?.includes(`posts`)
+                    );
+                  },
+                }
+              );
+
+              if (!props.liked) {
+                handleAddNotifications(props.user, props.id);
+              }
+            }}
+            weight={props.liked ? "fill" : "regular"}
+            className={
+              props.liked
+                ? "text-red-600 text-2xl cursor-pointer"
+                : " text-xl cursor-pointer"
+            }
+          />
+        </button>
+      </div>
+      {comments && <CommentSection id={props.id} />}
     </div>
   );
 }

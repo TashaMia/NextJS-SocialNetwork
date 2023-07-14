@@ -1,21 +1,26 @@
 import { createClient } from "@supabase/supabase-js";
 import useSWRMutation from "swr/mutation";
-const supabase = createClient(
+
+export default function useMutateCommentPost() {
+  const supabase = createClient(
     "https://ifutxtlqsucntyibpetb.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmdXR4dGxxc3VjbnR5aWJwZXRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc4NjIyMTYsImV4cCI6MjAwMzQzODIxNn0.rhcAiilZcyAnvMV2ujvGU6CklOy1CeTdxlYWeiY47v4"
   );
-export default function useMutateLikePostV2() {
-  const { trigger, isMutating, data } = useSWRMutation("posts", likePost);
-  async function likePost(
+
+  async function addComment(
     params: string,
-    { arg }: { arg: { id: number; patch: object } }
+    { arg }: { arg: { body: object } }
   ) {
+    console.log(arg);
     const { data, error } = await supabase
-      .from(`posts`)
-      .update(arg.patch)
-      .eq("id", arg.id)
+      .from(`${params}`)
+      .upsert(arg.body)
       .select();
-  
+    return data;
   }
+
+  const { trigger, isMutating, data } = useSWRMutation("comments", addComment);
+  console.log(data);
+
   return { trigger, isMutating, data };
 }

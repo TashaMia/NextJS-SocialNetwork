@@ -15,7 +15,7 @@ export default function useMutateEditUserV2() {
     .update(arg.patch)
     .eq("id", arg.id)
     .select();
-  console.log(arg);
+  
   return data
   }
   return { trigger, isMutating, data };
