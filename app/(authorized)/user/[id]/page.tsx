@@ -11,6 +11,9 @@ import { createClient } from "@supabase/supabase-js";
 // import useMutateUsersV2 from "../../../useMutateUsersV2";
 // import useGetRegistrationStatus from "../../../useGetRegistrationStatus";
 import EditProfile from "../userComponents/EditProfile";
+import Subscriptions from "../userComponents/SubscriptionsBtn";
+import useGetSubscriptions from "../../../useGetSubscriptions";
+import Link from "next/link";
 
 export default function User() {
   const supabase = createClient(
@@ -24,7 +27,6 @@ export default function User() {
   const params = useParams();
   async function getUserData() {
     let allUsers = supabase.from(`users`).select("*").eq("id", userId);
-    // console.log(allUsers);
     return allUsers;
   }
   getUserData();
@@ -75,6 +77,11 @@ export default function User() {
       .eq("id", userId)
       .select();
   }
+
+  const subscriptionsData = useGetSubscriptions({
+    isFilter: true,
+    filter: params.id,
+  });
 
   return (
     <div className="flex flex-col justify-start w-full  gap-4">
@@ -133,10 +140,12 @@ export default function User() {
                   <p>22</p>
                   <p>Подписчика</p>
                 </div>
-                <div className="flex flex-col justify-center items-center text-sm">
-                  <p>11</p>
-                  <p>Подписок</p>
-                </div>
+                <Link href={`/user/${params.id}/subscriptions`}>
+                  <div className="flex flex-col justify-center items-center text-sm">
+                    <p>{subscriptionsData?.length}</p>
+                    <p>Подписок</p>
+                  </div>
+                </Link>
                 {/* <div className="flex flex-col justify-center items-center text-xs">
                   <p>44</p>
                   <p>Постов</p>
@@ -146,9 +155,7 @@ export default function User() {
           </div>
           <div className="flex">
             {!isLogInUser ? (
-              <button className="p-2 ml-4 bg-gray-800 w-32 rounded-sm text-white text-normal">
-                Подписаться
-              </button>
+              <Subscriptions />
             ) : (
               <button
                 className="bg-gray-500 p-2 ml-4  w-36 rounded-sm text-white text-normal h-10"

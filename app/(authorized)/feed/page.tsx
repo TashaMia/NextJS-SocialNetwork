@@ -1,10 +1,10 @@
 "use client";
-// import useGetRegistrationStatus from "../../useGetRegistrationStatus";
+import useGetRegistrationStatus from "../../useGetRegistrationStatus";
 import PostsList from "./feedComponent/PostsList";
 
 export default function CommonFeed() {
-  // const status = useGetRegistrationStatus();
-  // console.log(status);
+  const status = useGetRegistrationStatus();
+  console.log(status);
   return (
     <div className="feed">
       <div className="w-[100%] flex flex-col justify-center items-center">

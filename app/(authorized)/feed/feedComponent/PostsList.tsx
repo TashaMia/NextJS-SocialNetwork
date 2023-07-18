@@ -30,7 +30,7 @@ export default function PostsList(props: IFilter) {
 
   return (
     <div className="feed w-screen  sm:w-full">
-      <div className="w-[100%] sm:w-[100%] sm:ml-2 mb-24 flex flex-col justify-center items-center">
+      <div className="w-[100%] sm:w-[100%] gap-4 sm:gap-4 mb-24 flex flex-col justify-center items-center">
         <ViewportList items={postList}>
           {(item) => (
             <Post

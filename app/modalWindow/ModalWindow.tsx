@@ -8,6 +8,7 @@ import useGetPostsV2 from "../useGetPostsV2";
 import { useSWRConfig } from "swr";
 export const modalWindowQuestion = atom<string>("");
 export const idPost = atom<number>(0);
+export const userPost = atom<string>("");
 
 export default function ModalWindow() {
   const { mutate } = useSWRConfig();
@@ -15,6 +16,8 @@ export default function ModalWindow() {
   const modaWindowVisible = useSetAtom(modalWindow);
   const [modalWindowQ, setModalWindowQ] = useAtom(modalWindowQuestion);
   const [modalWindowIdPost, setModalWindowIdPost] = useAtom(idPost);
+  const [modalWindowUserPost, setModalWindowUserPost] = useAtom(userPost);
+
   const { trigger: deletePost } = useMutateDeletePostsV2();
   return (
     <div className="w-screen flex justify-center items-center h-screen fixed bg-slate-500/[0.4] z-10">
@@ -29,7 +32,7 @@ export default function ModalWindow() {
               }
               if (modalWindowQ == "Вы уверены что хотите удалить пост?") {
                 deletePost(
-                  { id: modalWindowIdPost },
+                  { id: modalWindowIdPost, user: modalWindowUserPost },
                   {
                     onSuccess: () => {
                       mutate((key: string[]) => {

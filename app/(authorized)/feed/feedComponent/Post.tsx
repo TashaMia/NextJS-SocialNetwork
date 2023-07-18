@@ -2,23 +2,22 @@
 import { ChatCircleText, Heart, X } from "@phosphor-icons/react";
 import Link from "next/link";
 import { mutate } from "swr";
-import useGetUsers from "../../../useGetUsers";
-import useMutateLikePost from "../../../useMutateLikePost";
-import { useAtomValue, useSetAtom } from "jotai";
-import { idPost, modalWindowQuestion } from "../../../modalWindow/ModalWindow";
-import useMutateNotifications from "../../../useMutateNotifications";
+import { useSetAtom } from "jotai";
+import {
+  idPost,
+  modalWindowQuestion,
+  userPost,
+} from "../../../modalWindow/ModalWindow";
 import {
   modalComm,
   modalWindow,
-  openComments,
   postID,
   userWhoIsCommenting,
 } from "../../../atoms";
 import useGetUsersV2 from "../../../useGetUsersV2";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useMutateLikePostV2 from "../../../useMutateLikePostV2";
 import useMutateNotificationsV2 from "../../../useMutateNotificationsV2";
-import useGetComments from "../../../useGetComments";
 import CommentSection from "../CommentSection";
 
 interface Body {
@@ -51,6 +50,8 @@ export default function Post(props: Post) {
   const modaWindowQue = useSetAtom(modalWindowQuestion);
   const modaWindowVisible = useSetAtom(modalWindow);
   const modalWindowIdPost = useSetAtom(idPost);
+  const modalWindowUserPost = useSetAtom(userPost);
+
   const handleAddNotifications = async (user: string, post: number) => {
     notifications(
       {
@@ -79,7 +80,7 @@ export default function Post(props: Post) {
   const post = useSetAtom(postID);
   return (
     <div
-      className="flex flex-col rounded-xl border border-1 w-[100%]  p-6 gap-2 my-4 "
+      className="flex flex-col rounded-xl border border-1 w-[95%]  p-6 gap-2  "
       onClick={() => {
         setComments(!comments);
       }}
@@ -91,6 +92,7 @@ export default function Post(props: Post) {
             modaWindowQue("Вы уверены что хотите удалить пост?");
             modaWindowVisible(true);
             modalWindowIdPost(props.id);
+            modalWindowUserPost(props.user);
           }}
         />
       </div>
