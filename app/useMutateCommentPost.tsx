@@ -11,7 +11,6 @@ export default function useMutateCommentPost() {
     params: string,
     { arg }: { arg: { body: object } }
   ) {
-    console.log(arg);
     const { data, error } = await supabase
       .from(`${params}`)
       .upsert(arg.body)
@@ -20,7 +19,6 @@ export default function useMutateCommentPost() {
   }
 
   const { trigger, isMutating, data } = useSWRMutation("comments", addComment);
-  console.log(data);
 
   return { trigger, isMutating, data };
 }

@@ -15,15 +15,3 @@ export default function useMutateLikePostV2() {
   }
   return { trigger, isMutating, data };
 }
-// const { trigger, isMutating, data } = useSWRMutation("posts", likePost);
-// async function likePost(
-//   params: string,
-//   { arg }: { arg: { id: number; patch: object } }
-// ) {
-//   const { data, error } = await supabase
-//     .from(`posts`)
-//     .update(arg.patch)
-//     .eq("id", arg.id)
-//     .select();
-// }
-// return { trigger, isMutating, data };

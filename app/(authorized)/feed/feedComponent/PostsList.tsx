@@ -1,13 +1,7 @@
 "use client";
 
-import { createClient } from "@supabase/supabase-js";
-import useGetPosts from "../../../useGetPosts";
 import useGetPostsV2 from "../../../useGetPostsV2";
 import Post from "./Post";
-import { useEffect, useState } from "react";
-import { modalComm, userWhoIsCommenting } from "../../../atoms";
-import ModalComments from "../ModalComments";
-import { useSetAtom } from "jotai";
 import { ViewportList } from "react-viewport-list";
 
 interface Post {

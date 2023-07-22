@@ -2,11 +2,11 @@
 import { HouseLine, Bell, Plus, User, SignOut } from "@phosphor-icons/react";
 import Link from "next/link";
 import AddPost from "./addPostComponent/AddPost";
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import ModalWindow, { modalWindowQuestion } from "../modalWindow/ModalWindow";
 import SideMenu from "./appComponent/SideMenu";
 import { modalComm, modalWindow, textFieldAtom } from "../atoms";
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useState } from "react";
 import ModalComments from "./feed/ModalComments";
 
 export default function MenuLayout({
@@ -55,7 +55,6 @@ export default function MenuLayout({
             modaWindowQue("Вы уверены что хотите выйти?");
 
             setModalWindowOpened(true);
-            localStorage.removeItem("userId");
           }}
         >
           <SignOut className="w-6 h-6 text-gray-900" />

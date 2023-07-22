@@ -1,5 +1,4 @@
 import useGetComments from "../../useGetComments";
-import useGetUsersV2 from "../../useGetUsersV2";
 import Comment from "./Comment";
 
 export default function CommentSection(props: { id: number }) {
@@ -8,11 +7,10 @@ export default function CommentSection(props: { id: number }) {
     filter: props.id,
   });
 
-  console.log(comments);
   return (
     <ul>
       {comments?.map((comment) => (
-        <li>
+        <li key={comment.id}>
           <Comment comment={comment} />
         </li>
       ))}

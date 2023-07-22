@@ -1,23 +1,11 @@
 "use client";
-import { useRouter } from "next/navigation";
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
-import useGetUsers from "../../useGetUsers";
 import ModalWindow, {
   modalWindowQuestion,
 } from "../../modalWindow/ModalWindow";
-import { emailAt, modalWindow, passwordAt } from "../../atoms";
+import { emailAt, modalWindow } from "../../atoms";
 import { createClient } from "@supabase/supabase-js";
-import { Spinner } from "@phosphor-icons/react";
-
-interface IUser {
-  email: string;
-  firstName: string;
-  id: string;
-  lastName: string;
-  password: string;
-  picture: string;
-}
 
 export default function AuthorizationV2() {
   const [error, setError] = useState(false);
@@ -52,8 +40,8 @@ export default function AuthorizationV2() {
     const { data, error } = await supabase.auth.signInWithOtp({
       email: email,
       options: {
-        // emailRedirectTo: "https://next-js-social-network-steel.vercel.app/feed",
-        emailRedirectTo: "http://localhost:3002/feed",
+        emailRedirectTo: "https://next-js-social-network-steel.vercel.app/feed",
+        // emailRedirectTo: "http://localhost:3002/feed",
       },
     });
   }

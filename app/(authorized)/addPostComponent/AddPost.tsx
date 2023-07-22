@@ -1,8 +1,7 @@
 "use client";
-import { useAtomValue, useSetAtom } from "jotai";
-import { ArrowUp, CaretDown, X } from "@phosphor-icons/react";
+import { useSetAtom } from "jotai";
+import { ArrowUp, X } from "@phosphor-icons/react";
 import { useRef } from "react";
-import useMutationPosts from "../../useMutationPosts";
 
 import { mutate } from "swr";
 import { textFieldAtom } from "../../atoms";

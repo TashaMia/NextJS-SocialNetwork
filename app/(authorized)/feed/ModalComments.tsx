@@ -2,7 +2,7 @@ import { ArrowUp, X } from "@phosphor-icons/react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { modalComm, postID, userWhoIsCommenting } from "../../atoms";
 import useGetUsersV2 from "../../useGetUsersV2";
-import { use, useReducer, useRef } from "react";
+import { useRef } from "react";
 import useMutateCommentPost from "../../useMutateCommentPost";
 import { mutate } from "swr";
 
@@ -19,7 +19,6 @@ export default function ModalComments() {
   const user = useAtomValue(userWhoIsCommenting);
 
   const handleAddComment = () => {
-    console.log(refText?.current?.value);
     if (refText.current?.value) {
       trigger(
         {

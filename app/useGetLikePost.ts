@@ -21,16 +21,17 @@ export default function useGetLikePost({
     let query = supabase.from(`${params}`).select("*");
     if (isFilter == true) {
       query = query.eq("user", `${filter}`);
-      query = query.eq("post", filterPost);
+      query = query.eq("post", `${filterPost}`);
     }
     console.log(filterPost);
     const { data, error } = await query;
+    console.log(data);
 
     return data;
   }
 
   const { data, error, isLoading, mutate } = useSWR(
-    [`likes`, filter],
+    [`likes`, filter, filterPost],
     ([key]) => getLikePosts(key)
   );
 

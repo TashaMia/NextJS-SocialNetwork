@@ -1,6 +1,5 @@
 "use client";
 import useGetNotificationsV2 from "../../useGetNotificatinsV2";
-import useGetNotifications from "../../useGetNotifications";
 import Notification from "./notificationsComponent/Notification";
 
 interface INotifications {
@@ -22,7 +21,7 @@ export default function NotificationSection() {
     <div className="feed w-screen  sm:w-full">
       <div className="w-[100%] sm:w-[100%]  mb-24 flex flex-col justify-center items-center">
         <h1 className="p-4 border-b flex flex-col justify-center items-center border-slate-200 w-[100%] text-slate-600">
-          Notification
+          Уведомления
         </h1>
         {notifications && notifications?.length > 0 ? (
           <ul className="sm:w-[100%]  flex flex-col gap-2 mt-2">

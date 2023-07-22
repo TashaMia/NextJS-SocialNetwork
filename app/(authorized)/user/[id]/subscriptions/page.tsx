@@ -19,12 +19,12 @@ export default function SubscriptionSection() {
     filter: params.id,
   });
   return (
-    <div className="feed w-screen  sm:w-full">
-      <div className="w-[100%] sm:w-[100%]  mb-24 flex flex-col justify-center items-center">
-        <h1 className="p-4 border-b flex flex-col justify-center items-center border-slate-200 w-[100%] text-slate-600">
-          Subscriptions
+    <div className="feed w-screen   sm:w-full">
+      <div className=" sm:w-[100%]  mb-24 flex flex-col justify-center items-center">
+        <h1 className="p-4 border-b w-[100%] flex flex-col justify-center items-center border-slate-200  text-slate-600">
+          Подписки
         </h1>
-        <ul className="flex flex-col items-center w-screen justify-center">
+        <ul className="flex flex-col items-center w-[100%] justify-center">
           {subscriptionsData?.map((item: ISubscribtion) => (
             <li key={item?.id} className="flex w-[96%] mt-4  md:w-[98%]">
               <SubscriptionsItem subscribedTo={item.subscribedTo} />

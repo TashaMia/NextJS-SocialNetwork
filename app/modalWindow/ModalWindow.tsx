@@ -28,6 +28,8 @@ export default function ModalWindow() {
             className="border border-black bg-slate-800 text-white p-2 w-20 rounded-xl flex justify-center items-center hover:bg-slate-600"
             onClick={() => {
               if (modalWindowQ == "Вы уверены что хотите выйти?") {
+                localStorage.removeItem("userId");
+
                 router.push("/authorizationV2");
               }
               if (modalWindowQ == "Вы уверены что хотите удалить пост?") {

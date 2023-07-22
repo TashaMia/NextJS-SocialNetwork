@@ -18,7 +18,10 @@ export default function useMutateSubscriptions() {
     return data;
   }
 
-  const { trigger, isMutating, data } = useSWRMutation("subscriptions", addSubscribed);
+  const { trigger, isMutating, data } = useSWRMutation(
+    "subscriptions",
+    addSubscribed
+  );
 
   return { trigger, isMutating, data };
 }

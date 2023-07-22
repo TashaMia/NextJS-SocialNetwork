@@ -20,6 +20,7 @@ import useMutateLikePostV2 from "../../../useMutateLikePostV2";
 import useMutateNotificationsV2 from "../../../useMutateNotificationsV2";
 import CommentSection from "../CommentSection";
 import useGetLikePost from "../../../useGetLikePost";
+import useMutateDeleteLikePost from "../../../useMutateDeleteLikePost";
 
 interface Body {
   text: string;
@@ -44,9 +45,7 @@ export default function Post(props: Post) {
 
   const { trigger } = useMutateLikePostV2();
   const { trigger: notifications, isMutating } = useMutateNotificationsV2();
-  const likedPostObj = Object.assign({}, props.body, {
-    liked: props.body.liked ? false : true,
-  });
+  const { trigger: like } = useMutateDeleteLikePost();
 
   const modaWindowQue = useSetAtom(modalWindowQuestion);
   const modaWindowVisible = useSetAtom(modalWindow);
@@ -74,12 +73,11 @@ export default function Post(props: Post) {
   };
   const userId =
     typeof window != "undefined" ? localStorage?.getItem("userId") : "";
-  const postId = props.id;
-  console.log(postId);
+
   const likePost = useGetLikePost({
     isFilter: true,
     filter: userId,
-    filterPost: postId,
+    filterPost: props.id,
   });
   const id = props.user?.slice(0, 7);
 
@@ -89,7 +87,6 @@ export default function Post(props: Post) {
   const user = useSetAtom(userWhoIsCommenting);
   const post = useSetAtom(postID);
 
-  console.log({ ...likePost });
   return (
     <div
       className="flex flex-col rounded-xl border border-1 w-[95%]  p-6 gap-2  "
@@ -112,10 +109,16 @@ export default function Post(props: Post) {
       <div className="flex justify-start flex-col w-80 items-start gap-8 pb-4">
         <Link href={`/user/${props.user}`}>
           <div className="flex gap-2 items-center">
-            <img
-              src={users && users[0]?.picture}
-              className="w-100% h-14 w-14 rounded-xl object-cover  bg-slate-100"
-            />
+            {users && (
+              <img
+                src={
+                  users[0]?.picture !== null
+                    ? users[0]?.picture
+                    : "https://avatars.mds.yandex.net/i?id=f2278dbde793622d022c098dbf4e22323a59974e-9233495-images-thumbs&n=13"
+                }
+                className="w-100% h-14 w-14 rounded-xl object-cover  bg-slate-100"
+              />
+            )}
             <div className="flex gap-2 flex-col items-start font-semibold">
               <div className="flex gap-2">
                 <p>{users && users[0]?.firstName} </p>
@@ -143,26 +146,42 @@ export default function Post(props: Post) {
         </button>
         <button className="flex justify-end  cursor-default">
           <Heart
-            onClick={() => {
-              trigger(
-                // { id: props.id, patch: likedPostObj },
-                { body: { post: props.id, user: userId, liked: true } },
-
-                {
-                  onSuccess: () => {
-                    mutate(
-                      (key: string[]) =>
-                        Array.isArray(key) && key?.[0]?.includes(`likes`)
-                    );
+            onClick={(event) => {
+              event?.stopPropagation();
+              if ({ ...likePost?.data }[0]?.liked) {
+                like(
+                  {
+                    id: props.id,
                   },
-                }
-              );
+                  {
+                    onSuccess: () => {
+                      mutate(
+                        (key: string[]) =>
+                          Array.isArray(key) && key?.[0]?.includes(`likes`)
+                      );
+                    },
+                  }
+                );
+              } else {
+                trigger(
+                  { body: { post: props.id, user: userId, liked: true } },
 
-              if (!props.liked) {
-                handleAddNotifications(props.user, props.id);
+                  {
+                    onSuccess: () => {
+                      mutate(
+                        (key: string[]) =>
+                          Array.isArray(key) && key?.[0]?.includes(`likes`)
+                      );
+                    },
+                  }
+                );
+
+                if (!props.liked) {
+                  handleAddNotifications(props.user, props.id);
+                }
               }
             }}
-            weight={props.liked ? "fill" : "regular"}
+            weight={{ ...likePost?.data }[0]?.liked ? "fill" : "regular"}
             className={
               { ...likePost?.data }[0]?.liked
                 ? "text-red-600 text-2xl cursor-pointer"
