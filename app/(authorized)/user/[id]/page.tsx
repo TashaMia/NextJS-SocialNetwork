@@ -14,6 +14,7 @@ import EditProfile from "../userComponents/EditProfile";
 import Subscriptions from "../userComponents/SubscriptionsBtn";
 import useGetSubscriptions from "../../../useGetSubscriptions";
 import Link from "next/link";
+import useGetFollowers from "../../../useGetFollowers";
 
 export default function User() {
   const supabase = createClient(
@@ -25,6 +26,7 @@ export default function User() {
     typeof window != "undefined" ? localStorage.getItem("userId") : "";
 
   const params = useParams();
+  const currentUser = params.id;
   async function getUserData() {
     let allUsers = supabase.from(`users`).select("*").eq("id", userId);
     return allUsers;
@@ -40,7 +42,7 @@ export default function User() {
 
   const users = useGetUsersV2({
     isFilter: true,
-    filter: params.id,
+    filter: currentUser,
   });
   const [editIsVisible, setEditIsVisible] = useState(false);
   const [newUserImage, setNewUserImage] = useState();
@@ -77,10 +79,14 @@ export default function User() {
       .eq("id", userId)
       .select();
   }
+  const followersData = useGetFollowers({
+    isFilter: true,
+    filter: currentUser,
+  });
 
   const subscriptionsData = useGetSubscriptions({
     isFilter: true,
-    filter: params.id,
+    filter: currentUser,
   });
 
   return (
@@ -136,14 +142,16 @@ export default function User() {
               <p>{users && users[0]?.gender}</p>
               <p className="text-violet-700">#{params.id?.slice(0, 7)}</p>
               <div className="flex justify-start items-start w-[100%] gap-4 mt-4">
-                <div className="flex flex-col justify-center items-center text-sm">
-                  <p>22</p>
-                  <p>Подписчика</p>
-                </div>
                 <Link href={`/user/${params.id}/subscriptions`}>
                   <div className="flex flex-col justify-center items-center text-sm">
                     <p>{subscriptionsData?.length}</p>
                     <p>Подписок</p>
+                  </div>
+                </Link>
+                <Link href={`/user/${params.id}/followers`}>
+                  <div className="flex flex-col justify-center items-center text-sm">
+                    <p>{followersData?.length}</p>
+                    <p>Подписчика</p>
                   </div>
                 </Link>
                 {/* <div className="flex flex-col justify-center items-center text-xs">

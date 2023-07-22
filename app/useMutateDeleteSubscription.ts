@@ -7,21 +7,25 @@ interface IFilter {
   filter: string | undefined;
 }
 
-export default function useMutatePostsV2() {
+export default function useMutateDeleteSubscription() {
   const supabase = createClient(
     "https://ifutxtlqsucntyibpetb.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmdXR4dGxxc3VjbnR5aWJwZXRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc4NjIyMTYsImV4cCI6MjAwMzQzODIxNn0.rhcAiilZcyAnvMV2ujvGU6CklOy1CeTdxlYWeiY47v4"
   );
-
-  async function addPost(params: string, { arg }: { arg: { body: object } }) {
-    const { data, error } = await supabase
+  const { trigger, isMutating, data } = useSWRMutation(
+    `subscriptions`,
+    deleteSubscription
+  );
+  async function deleteSubscription(
+    params: string,
+    { arg }: { arg: { subscribedTo: string } }
+  ) {
+    const resp = await supabase
       .from(`${params}`)
-      .upsert(arg.body)
-      .select();
-    return data;
+      .delete()
+      .eq("subscribedTo", `${arg.subscribedTo}`);
+    return resp;
   }
-
-  const { trigger, isMutating, data } = useSWRMutation("posts", addPost);
 
   return { trigger, isMutating, data };
 }

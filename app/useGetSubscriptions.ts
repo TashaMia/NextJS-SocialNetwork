@@ -15,7 +15,7 @@ export default function useGetSubscriptions({isFilter, filter}:any) {
         return data
       }
     
- const { data, error, isLoading } = useSWR([`subscriptions`], ([key]) => getSubscriptions(key))
+ const { data, error, isLoading } = useSWR([`subscriptions`, filter], ([key]) => getSubscriptions(key))
 
  return data
 }

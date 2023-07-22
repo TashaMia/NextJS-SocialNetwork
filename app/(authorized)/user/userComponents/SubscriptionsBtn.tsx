@@ -4,6 +4,7 @@ import useMutateSubscriptions from "../../../useMutateSubscriptions";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import useGetSubscriptions from "../../../useGetSubscriptions";
+import useMutateDeleteSubscription from "../../../useMutateDeleteSubscription";
 
 export default function Subscriptions() {
   const { trigger, isMutating } = useMutateSubscriptions();
@@ -30,18 +31,36 @@ export default function Subscriptions() {
       }
     );
   };
-  const [statusProfile, setStatusProfile] = useState("Подписаться");
 
+  const { trigger: deleteSubscription } = useMutateDeleteSubscription();
+  const handleDeleteSub = () => {
+    deleteSubscription(
+      {
+        subscribedTo: params.id,
+      },
+      {
+        onSuccess: () => {
+          mutate((key: string[]) => {
+            return Array.isArray(key) && key?.[0]?.includes(`subscriptions`);
+          });
+        },
+      }
+    );
+  };
+  const checkSuscriptions = useGetSubscriptions({
+    isFilter: true,
+    filter: userLogedId,
+  });
+  const check = checkSuscriptions?.find((sub) => sub.subscribedTo == params.id);
+  console.log(check);
   return (
     <button
       className="p-2 ml-4 bg-gray-800 w-32 rounded-sm text-white text-normal"
       onClick={() => {
-        statusProfile == "Подписаться" ?? handleAddSub();
-
-        setStatusProfile("Отписаться");
+        check ? handleDeleteSub() : handleAddSub();
       }}
     >
-      {statusProfile}
+      {check ? "Отписаться" : "Подписаться"}
     </button>
   );
 }

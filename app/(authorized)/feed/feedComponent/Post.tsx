@@ -19,6 +19,7 @@ import { useState } from "react";
 import useMutateLikePostV2 from "../../../useMutateLikePostV2";
 import useMutateNotificationsV2 from "../../../useMutateNotificationsV2";
 import CommentSection from "../CommentSection";
+import useGetLikePost from "../../../useGetLikePost";
 
 interface Body {
   text: string;
@@ -71,6 +72,15 @@ export default function Post(props: Post) {
       }
     );
   };
+  const userId =
+    typeof window != "undefined" ? localStorage?.getItem("userId") : "";
+  const postId = props.id;
+  console.log(postId);
+  const likePost = useGetLikePost({
+    isFilter: true,
+    filter: userId,
+    filterPost: postId,
+  });
   const id = props.user?.slice(0, 7);
 
   const [comments, setComments] = useState(false);
@@ -78,6 +88,8 @@ export default function Post(props: Post) {
   const commentModal = useSetAtom(modalComm);
   const user = useSetAtom(userWhoIsCommenting);
   const post = useSetAtom(postID);
+
+  console.log({ ...likePost });
   return (
     <div
       className="flex flex-col rounded-xl border border-1 w-[95%]  p-6 gap-2  "
@@ -133,12 +145,14 @@ export default function Post(props: Post) {
           <Heart
             onClick={() => {
               trigger(
-                { id: props.id, patch: likedPostObj },
+                // { id: props.id, patch: likedPostObj },
+                { body: { post: props.id, user: userId, liked: true } },
+
                 {
                   onSuccess: () => {
                     mutate(
                       (key: string[]) =>
-                        Array.isArray(key) && key?.[0]?.includes(`posts`)
+                        Array.isArray(key) && key?.[0]?.includes(`likes`)
                     );
                   },
                 }
@@ -150,7 +164,7 @@ export default function Post(props: Post) {
             }}
             weight={props.liked ? "fill" : "regular"}
             className={
-              props.liked
+              { ...likePost?.data }[0]?.liked
                 ? "text-red-600 text-2xl cursor-pointer"
                 : " text-xl cursor-pointer"
             }
