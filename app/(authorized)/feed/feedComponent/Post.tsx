@@ -134,12 +134,14 @@ export default function Post(props: Post) {
         <div className="text-startflex flex-col">
           <p className=" text-start text-normal w-[95%]">{props.textOfPost}</p>
         </div>
-        {props.body.picture && (
+        {props.body.picture && props.body.picture ? (
           <img
             src={props.body.picture}
             alt="post picture"
-            className="rounded-xl"
+            className="rounded-xl w-[250px] sm:max-w-[75%] sm:w-[300px]"
           ></img>
+        ) : (
+          <div></div>
         )}
 
         <div className="flex text-slate-400 pt-4 justify-start gap-8 w-[100%] items-center">

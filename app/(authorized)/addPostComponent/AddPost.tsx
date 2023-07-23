@@ -1,7 +1,7 @@
 "use client";
 import { useSetAtom } from "jotai";
-import { ArrowUp, Paperclip, X } from "@phosphor-icons/react";
-import { ChangeEvent, useRef, useState } from "react";
+import { ArrowUp, Check, Circle, Paperclip, X } from "@phosphor-icons/react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { mutate } from "swr";
 import { textFieldAtom } from "../../atoms";
@@ -27,6 +27,7 @@ export default function AddPost() {
     filePicker?.current?.click();
   }
   const [picture, setPicture] = useState<File | null>(null);
+
   function handleChangeFiles(event: ChangeEvent<HTMLInputElement>) {
     const files = event?.currentTarget?.files;
     setPicture(files && files[0]);
@@ -49,7 +50,43 @@ export default function AddPost() {
 
   const { trigger, isMutating } = useMutatePostsV2();
   const handleAddPost = () => {
-    if (refText.current?.value) {
+    if (picture) {
+      trigger(
+        {
+          body: {
+            user: userId,
+            liked: false,
+            picture: `https://ifutxtlqsucntyibpetb.supabase.co/storage/v1/object/public/postImg/${filePath}`,
+          },
+        },
+        {
+          onSuccess: () => {
+            mutate(
+              (key: string[]) =>
+                Array.isArray(key) && key?.[0]?.includes(`posts`)
+            );
+          },
+        }
+      );
+    } else if (refText.current?.value) {
+      trigger(
+        {
+          body: {
+            text: refText.current?.value,
+            user: userId,
+            liked: false,
+          },
+        },
+        {
+          onSuccess: () => {
+            mutate(
+              (key: string[]) =>
+                Array.isArray(key) && key?.[0]?.includes(`posts`)
+            );
+          },
+        }
+      );
+    } else if (refText.current?.value && picture) {
       trigger(
         {
           body: {
@@ -78,6 +115,25 @@ export default function AddPost() {
     filter: userLogedId,
   });
 
+  const [statusLoadingProcess, setStatusLoadingProcess] = useState("Загрузить");
+
+  useEffect(() => {
+    if (picture !== null) {
+      setStatusLoadingProcess("Загружается");
+    }
+  }, [picture]);
+
+  if (statusLoadingProcess == "Загружается") {
+    setTimeout(() => {
+      setStatusLoadingProcess("Загружено");
+    }, 2000);
+  }
+  if (statusLoadingProcess == "Загружено") {
+    setTimeout(() => {
+      setStatusLoadingProcess("Загрузить");
+    }, 3000);
+  }
+
   return (
     <div className="fixed z-10 w-screen h-screen bg-black/[0.3] sm:flex sm:justify-center sm:items-center">
       <div className="fixed h-[90%] bottom-0 w-screen bg-white rounded-t-xl sm:w-96 sm:h-60 sm:bottom-auto sm:rounded-xl">
@@ -99,13 +155,19 @@ export default function AddPost() {
           ></textarea>
         </div>
         <div className="sm:w-[100%] flex justify-end">
-          <div className="flex items-start w-[70%] sm:w-[80%] justify-between px-4">
+          <div className="flex items-start w-[75%] sm:w-[80%] justify-between  pr-10">
             <button
               onClick={() => {
                 handlePick();
               }}
             >
-              <Paperclip className=" cursor-pointer" />
+              {statusLoadingProcess == "Загрузить" && (
+                <Paperclip className=" cursor-pointer" />
+              )}
+              {statusLoadingProcess == "Загружается" && <Circle />}
+              {statusLoadingProcess == "Загружено" && (
+                <Check className="text-green-700" />
+              )}
             </button>
             <input
               className="opacity-0 h-0 w-0 leading-[0px] overflow-hidden p-0 m-0"

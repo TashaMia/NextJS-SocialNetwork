@@ -48,6 +48,7 @@ export default function Subscriptions() {
   const checkSuscriptions = useGetSubscriptions({
     isFilter: true,
     filter: userLogedId,
+    filterColumn: "user",
   });
   const check = checkSuscriptions?.find((sub) => sub.subscribedTo == params.id);
   return (

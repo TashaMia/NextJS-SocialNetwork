@@ -15,6 +15,7 @@ import Subscriptions from "../userComponents/SubscriptionsBtn";
 import useGetSubscriptions from "../../../useGetSubscriptions";
 import Link from "next/link";
 import useGetFollowers from "../../../useGetFollowers";
+import useGetPostsV2 from "../../../useGetPostsV2";
 
 export default function User() {
   const supabase = createClient(
@@ -32,7 +33,6 @@ export default function User() {
     return allUsers;
   }
   getUserData();
-  const userIndex = Number(userId);
   const [isLogInUser, setIsLogInUser] = useState(false);
   useEffect(() => {
     if (params.id == userId) {
@@ -82,11 +82,18 @@ export default function User() {
   const followersData = useGetFollowers({
     isFilter: true,
     filter: currentUser,
+    filterColumn: "subscribedTo",
   });
 
   const subscriptionsData = useGetSubscriptions({
     isFilter: true,
     filter: currentUser,
+    filterColumn: "user",
+  });
+
+  const posts = useGetPostsV2({
+    isFilter: true,
+    filter: params.id,
   });
 
   return (
@@ -98,9 +105,9 @@ export default function User() {
               {loader ? (
                 <button
                   onClick={handlePick}
-                  className=" w-32 h-32  rounded-xl  fixed top-0  hover:bg-slate-400/[0.2]"
+                  className=" w-28 h-28  rounded-xl  fixed  hover:bg-slate-400/[0.2]"
                 >
-                  <Spinner className=" h-10 ml-12 mt-10 w-10 opacity-100 text-black  animate-spin" />
+                  <Spinner className=" h-10 ml-10 mt-4 w-10 opacity-100 text-slate-200  animate-spin" />
                 </button>
               ) : (
                 <button
@@ -110,7 +117,7 @@ export default function User() {
                   }}
                   className=" w-28 h-28  rounded-xl  fixed opacity-0 hover:opacity-100 hover:bg-slate-400/[0.2]"
                 >
-                  <FileImage className=" h-8 ml-24 mt-24 w-6  text-black  " />
+                  <FileImage className=" h-8 ml-20 mt-20 w-6  text-black  " />
                 </button>
               )}
 
@@ -143,21 +150,21 @@ export default function User() {
               <p className="text-violet-700">#{params.id?.slice(0, 7)}</p>
               <div className="flex justify-start items-start w-[100%] gap-4 mt-4">
                 <Link href={`/user/${params.id}/subscriptions`}>
-                  <div className="flex flex-col justify-center items-center text-sm">
+                  <div className="flex flex-col justify-center items-center text-xs">
                     <p>{subscriptionsData?.length}</p>
                     <p>Подписок</p>
                   </div>
                 </Link>
                 <Link href={`/user/${params.id}/followers`}>
-                  <div className="flex flex-col justify-center items-center text-sm">
+                  <div className="flex flex-col justify-center items-center text-xs">
                     <p>{followersData?.length}</p>
                     <p>Подписчика</p>
                   </div>
                 </Link>
-                {/* <div className="flex flex-col justify-center items-center text-xs">
-                  <p>44</p>
+                <div className="flex flex-col justify-center items-center text-xs">
+                  <p>{posts.data?.length}</p>
                   <p>Постов</p>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>

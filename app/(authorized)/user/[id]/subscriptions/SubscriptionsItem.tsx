@@ -1,8 +1,9 @@
 import Link from "next/link";
 import useGetUsersV2 from "../../../../useGetUsersV2";
+import { useEffect, useState } from "react";
+import { Spinner } from "@phosphor-icons/react";
 
 export default function SubscriptionsItem(props: { subscribedTo: string }) {
-  console.log(props);
   const users = useGetUsersV2({
     isFilter: true,
     filter: props.subscribedTo,

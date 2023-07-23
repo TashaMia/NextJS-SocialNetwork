@@ -17,6 +17,7 @@ export default function SubscriptionSection() {
   const subscriptionsData = useGetSubscriptions({
     isFilter: true,
     filter: params.id,
+    filterColumn: "user",
   });
   return (
     <div className="feed w-screen   sm:w-full">

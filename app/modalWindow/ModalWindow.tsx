@@ -21,7 +21,7 @@ export default function ModalWindow() {
   const { trigger: deletePost } = useMutateDeletePostsV2();
   return (
     <div className="w-screen flex justify-center items-center h-screen fixed bg-slate-500/[0.4] z-10">
-      <div className="w-[80%] h-[45%] drop-shadow-xl rounded-xl flex flex-col justify-between p-4  items-center gap-8 bg-white sm:w-96 sm:h-60">
+      <div className="w-[80%] h-[25%] drop-shadow-xl rounded-xl flex flex-col justify-between p-4  items-center gap-4 bg-white sm:w-96 sm:h-60">
         <p className="text-lg text-center text-black p-4">{modalWindowQ}</p>
         <div className="flex justify-center items-center gap-14">
           <button

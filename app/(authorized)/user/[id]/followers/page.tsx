@@ -11,12 +11,11 @@ interface ISubscribtion {
 }
 
 export default function FollowersSection() {
-  const userIsOnline =
-    typeof window != "undefined" ? localStorage.getItem("userId") : "";
   const params = useParams();
   const followersData = useGetFollowers({
     isFilter: true,
     filter: params.id,
+    filterColumn: "subscribedTo",
   });
   return (
     <div className="feed w-screen  sm:w-full">
