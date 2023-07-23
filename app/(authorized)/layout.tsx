@@ -36,7 +36,7 @@ export default function MenuLayout({
         </div>
         <div className="sm:w-[70%] w-[100%]"> {children}</div>
       </div>
-      <div className="sm:hidden fixed w-screen px-2 z-0 flex justify-between items-center  bottom-0 h-16 border-t border-t-slate-200 bg-white">
+      <div className="sm:hidden fixed w-screen px-10 z-0  flex justify-between items-center  bottom-0 h-16 border-t border-t-slate-200 bg-white">
         <Link href="/feed">
           <HouseLine className="text-gray-900  w-6 h-6" />
         </Link>

@@ -40,8 +40,8 @@ export default function AuthorizationV2() {
     const { data, error } = await supabase.auth.signInWithOtp({
       email: email,
       options: {
-        emailRedirectTo: "https://next-js-social-network-steel.vercel.app/feed",
-        // emailRedirectTo: "http://localhost:3002/feed",
+        // emailRedirectTo: "https://next-js-social-network-steel.vercel.app/feed",
+        emailRedirectTo: "http://localhost:3002/feed",
       },
     });
   }

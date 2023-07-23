@@ -1,17 +1,52 @@
 "use client";
 import { useSetAtom } from "jotai";
-import { ArrowUp, X } from "@phosphor-icons/react";
-import { useRef } from "react";
+import { ArrowUp, Paperclip, X } from "@phosphor-icons/react";
+import { ChangeEvent, useRef, useState } from "react";
 
 import { mutate } from "swr";
 import { textFieldAtom } from "../../atoms";
 import useMutatePostsV2 from "../../useMutatePostsV2";
 import useGetUsersV2 from "../../useGetUsersV2";
+import { createClient } from "@supabase/supabase-js";
 
 export default function AddPost() {
   const refText = useRef<HTMLTextAreaElement>(null);
   const textFieldVisible = useSetAtom(textFieldAtom);
   const userId = localStorage.getItem("userId");
+
+  //загрузка фото в пост
+
+  const supabase = createClient(
+    "https://ifutxtlqsucntyibpetb.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmdXR4dGxxc3VjbnR5aWJwZXRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc4NjIyMTYsImV4cCI6MjAwMzQzODIxNn0.rhcAiilZcyAnvMV2ujvGU6CklOy1CeTdxlYWeiY47v4"
+  );
+
+  const filePicker = useRef<HTMLInputElement>(null);
+
+  function handlePick() {
+    filePicker?.current?.click();
+  }
+  const [picture, setPicture] = useState<File | null>(null);
+  function handleChangeFiles(event: ChangeEvent<HTMLInputElement>) {
+    const files = event?.currentTarget?.files;
+    setPicture(files && files[0]);
+  }
+  const random = Math.random();
+
+  const bucket = "postImg";
+  const filePath = `${bucket}/newFile-${random}.jpg`;
+
+  async function uploadePostFile() {
+    if (picture) {
+      const { data, error } = await supabase.storage
+        .from(bucket)
+        .upload(filePath, picture);
+      if (error) {
+        throw error;
+      }
+    }
+  }
+
   const { trigger, isMutating } = useMutatePostsV2();
   const handleAddPost = () => {
     if (refText.current?.value) {
@@ -21,6 +56,7 @@ export default function AddPost() {
             text: refText.current?.value,
             user: userId,
             liked: false,
+            picture: `https://ifutxtlqsucntyibpetb.supabase.co/storage/v1/object/public/postImg/${filePath}`,
           },
         },
         {
@@ -43,8 +79,8 @@ export default function AddPost() {
   });
 
   return (
-    <div className="fixed z-10 w-screen h-screen bg-black/[0.3]">
-      <div className="fixed h-[90%] bottom-0 w-screen bg-white rounded-t-xl">
+    <div className="fixed z-10 w-screen h-screen bg-black/[0.3] sm:flex sm:justify-center sm:items-center">
+      <div className="fixed h-[90%] bottom-0 w-screen bg-white rounded-t-xl sm:w-96 sm:h-60 sm:bottom-auto sm:rounded-xl">
         <div className="flex justify-start p-2 gap-28">
           <button onClick={() => textFieldVisible(false)}>
             <X />
@@ -57,20 +93,37 @@ export default function AddPost() {
             className="w-14 h-14 bg-cover rounded-xl"
           ></img>
           <textarea
-            className="outline-slate-400  outline-1 rounded-xl h-20 w-full border p-2 border-slate-300"
+            className="outline-slate-400  outline-1 rounded-xl h-20 w-[75%] border p-2 border-slate-300"
             ref={refText}
             autoFocus
           ></textarea>
         </div>
-        <div className="flex items-start justify-end px-4">
-          <button
-            className="flex justify-center items-center rounded-full bg-blue-800	 p-2 w-10 h-10"
-            onClick={() => {
-              handleAddPost();
-            }}
-          >
-            <ArrowUp className="w-8 h-8 text-white" />
-          </button>
+        <div className="sm:w-[100%] flex justify-end">
+          <div className="flex items-start w-[70%] sm:w-[80%] justify-between px-4">
+            <button
+              onClick={() => {
+                handlePick();
+              }}
+            >
+              <Paperclip className=" cursor-pointer" />
+            </button>
+            <input
+              className="opacity-0 h-0 w-0 leading-[0px] overflow-hidden p-0 m-0"
+              ref={filePicker}
+              type="file"
+              onChange={handleChangeFiles}
+              accept="image/*,.png,.jpg,.gif"
+            />
+            <button
+              className="flex justify-center items-center rounded-full bg-blue-800	 p-2 w-10 h-10"
+              onClick={() => {
+                uploadePostFile();
+                handleAddPost();
+              }}
+            >
+              <ArrowUp className="w-8 h-8 text-white" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

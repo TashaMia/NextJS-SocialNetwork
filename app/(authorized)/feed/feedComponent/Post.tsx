@@ -27,6 +27,7 @@ interface Body {
   user: string;
   liked: boolean;
   id: number;
+  picture: string;
 }
 
 interface Post {
@@ -86,7 +87,6 @@ export default function Post(props: Post) {
   const commentModal = useSetAtom(modalComm);
   const user = useSetAtom(userWhoIsCommenting);
   const post = useSetAtom(postID);
-
   return (
     <div
       className="flex flex-col rounded-xl border border-1 w-[95%]  p-6 gap-2  "
@@ -130,67 +130,78 @@ export default function Post(props: Post) {
           </div>
         </Link>
       </div>
-      <div className="text-start gap-2 flex flex-col">
-        <p className=" text-start w-[95%]">{props.textOfPost}</p>
-      </div>
-      <div className="flex text-slate-400  justify-start gap-2 w-[100%] items-center">
-        <button
-          onClick={() => {
-            commentModal(true);
-            user(props.user);
-            post(props.id);
-            console.log(props.id);
-          }}
-        >
-          <ChatCircleText className="w-5 h-5" />
-        </button>
-        <button className="flex justify-end  cursor-default">
-          <Heart
-            onClick={(event) => {
-              event?.stopPropagation();
-              if ({ ...likePost?.data }[0]?.liked) {
-                like(
-                  {
-                    id: props.id,
-                  },
-                  {
-                    onSuccess: () => {
-                      mutate(
-                        (key: string[]) =>
-                          Array.isArray(key) && key?.[0]?.includes(`likes`)
-                      );
-                    },
-                  }
-                );
-              } else {
-                trigger(
-                  { body: { post: props.id, user: userId, liked: true } },
+      <div className="flex flex-col gap-4 pl-16">
+        <div className="text-startflex flex-col">
+          <p className=" text-start text-normal w-[95%]">{props.textOfPost}</p>
+        </div>
+        {props.body.picture && (
+          <img
+            src={props.body.picture}
+            alt="post picture"
+            className="rounded-xl"
+          ></img>
+        )}
 
-                  {
-                    onSuccess: () => {
-                      mutate(
-                        (key: string[]) =>
-                          Array.isArray(key) && key?.[0]?.includes(`likes`)
-                      );
-                    },
-                  }
-                );
-
-                if (!props.liked) {
-                  handleAddNotifications(props.user, props.id);
-                }
-              }
+        <div className="flex text-slate-400 pt-4 justify-start gap-8 w-[100%] items-center">
+          <button
+            onClick={() => {
+              commentModal(true);
+              user(props.user);
+              post(props.id);
+              console.log(props.id);
             }}
-            weight={{ ...likePost?.data }[0]?.liked ? "fill" : "regular"}
-            className={
-              { ...likePost?.data }[0]?.liked
-                ? "text-red-600 text-2xl cursor-pointer"
-                : " text-xl cursor-pointer"
-            }
-          />
-        </button>
+          >
+            <ChatCircleText className="w-6 h-6" />
+          </button>
+          <button className="flex justify-end  cursor-default">
+            <Heart
+              onClick={(event) => {
+                event?.stopPropagation();
+                if ({ ...likePost?.data }[0]?.liked) {
+                  like(
+                    {
+                      id: props.id,
+                    },
+                    {
+                      onSuccess: () => {
+                        mutate(
+                          (key: string[]) =>
+                            Array.isArray(key) && key?.[0]?.includes(`likes`)
+                        );
+                      },
+                    }
+                  );
+                } else {
+                  trigger(
+                    { body: { post: props.id, user: userId, liked: true } },
+
+                    {
+                      onSuccess: () => {
+                        mutate(
+                          (key: string[]) =>
+                            Array.isArray(key) && key?.[0]?.includes(`likes`)
+                        );
+                      },
+                    }
+                  );
+
+                  if (!props.liked) {
+                    handleAddNotifications(props.user, props.id);
+                  }
+                }
+              }}
+              weight={{ ...likePost?.data }[0]?.liked ? "fill" : "regular"}
+              className={
+                { ...likePost?.data }[0]?.liked
+                  ? "text-red-600 text-2xl cursor-pointer w-6 h-6"
+                  : " text-xl cursor-pointer w-6 h-6"
+              }
+            />
+          </button>
+        </div>
+
+        {comments && <CommentSection id={props.id} />}
       </div>
-      {comments && <CommentSection id={props.id} />}
     </div>
   );
 }

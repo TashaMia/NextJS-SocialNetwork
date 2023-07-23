@@ -9,6 +9,7 @@ interface Post {
   liked: boolean;
   text: string;
   user: string;
+  picture: string;
 }
 interface IFilter {
   isFilter: boolean;
