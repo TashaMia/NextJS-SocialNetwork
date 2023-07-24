@@ -49,9 +49,9 @@ export default function AddPost() {
   }
 
   const { trigger } = useMutatePostsV2();
-
+  console.log(refText.current?.value);
   const handleAddPost = () => {
-    if (picture) {
+    if (picture && refText.current?.value == undefined) {
       trigger(
         {
           body: {
@@ -69,7 +69,7 @@ export default function AddPost() {
           },
         }
       );
-    } else if (refText.current?.value) {
+    } else if (refText.current?.value && picture == null) {
       trigger(
         {
           body: {
