@@ -7,10 +7,13 @@ import useMutateDeleteSubscription from "../../../useMutateDeleteSubscription";
 
 export default function Subscriptions() {
   const { trigger, isMutating } = useMutateSubscriptions();
+
   const userLogedId =
     typeof window != "undefined" ? localStorage?.getItem("userId") : "";
+
   const params = useParams();
   const subscribedTo = params.id;
+
   const handleAddSub = () => {
     trigger(
       {
@@ -31,6 +34,7 @@ export default function Subscriptions() {
   };
 
   const { trigger: deleteSubscription } = useMutateDeleteSubscription();
+
   const handleDeleteSub = () => {
     deleteSubscription(
       {
@@ -45,12 +49,15 @@ export default function Subscriptions() {
       }
     );
   };
+
   const checkSuscriptions = useGetSubscriptions({
     isFilter: true,
     filter: userLogedId,
     filterColumn: "user",
   });
+
   const check = checkSuscriptions?.find((sub) => sub.subscribedTo == params.id);
+
   return (
     <button
       className="p-2 ml-4 bg-gray-800 w-32 rounded-sm text-white text-normal"

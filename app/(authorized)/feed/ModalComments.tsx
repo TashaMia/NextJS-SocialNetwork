@@ -8,13 +8,16 @@ import { mutate } from "swr";
 
 export default function ModalComments() {
   const refText = useRef<HTMLTextAreaElement>(null);
+
   const { trigger, isMutating } = useMutateCommentPost();
   const comment = useSetAtom(modalComm);
+
   const userLogedId = localStorage.getItem("userId");
   const users = useGetUsersV2({
     isFilter: true,
     filter: userLogedId,
   });
+
   const post = useAtomValue(postID);
   const user = useAtomValue(userWhoIsCommenting);
 

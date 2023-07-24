@@ -13,11 +13,13 @@ export default function AuthorizationV2() {
   const modaWindowQue = useSetAtom(modalWindowQuestion);
   const modaWindowVisible = useSetAtom(modalWindow);
   const modaWindowVisibleValue = useAtomValue(modalWindow);
+  const [email, setEmail] = useAtom(emailAt);
+
   const supabase = createClient(
     "https://ifutxtlqsucntyibpetb.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmdXR4dGxxc3VjbnR5aWJwZXRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc4NjIyMTYsImV4cCI6MjAwMzQzODIxNn0.rhcAiilZcyAnvMV2ujvGU6CklOy1CeTdxlYWeiY47v4"
   );
-  const [email, setEmail] = useAtom(emailAt);
+
   function getEmail(event: React.FormEvent<HTMLInputElement>) {
     setEmail(event.currentTarget.value);
   }
@@ -36,6 +38,7 @@ export default function AuthorizationV2() {
       setErrorText("Кажется, вы указали неверный email. Попробуйте снова :)");
     }
   }
+
   async function auth() {
     const { data, error } = await supabase.auth.signInWithOtp({
       email: email,
@@ -45,6 +48,7 @@ export default function AuthorizationV2() {
       },
     });
   }
+
   const [btn, setBtn] = useState("Отправить");
 
   return (

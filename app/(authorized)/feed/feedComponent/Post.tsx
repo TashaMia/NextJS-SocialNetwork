@@ -80,13 +80,18 @@ export default function Post(props: Post) {
     filter: userId,
     filterPost: props.id,
   });
+
   const id = props.user?.slice(0, 7);
 
   const [comments, setComments] = useState(false);
 
   const commentModal = useSetAtom(modalComm);
+
   const user = useSetAtom(userWhoIsCommenting);
   const post = useSetAtom(postID);
+
+  const deleteBtnIsVisible = props.user == userId;
+
   return (
     <div
       className="flex flex-col rounded-xl border border-1 w-[95%]  p-6 gap-2  "
@@ -95,15 +100,17 @@ export default function Post(props: Post) {
       }}
     >
       <div className="w-[100%] flex items-end justify-end">
-        <X
-          className="cursor-pointer"
-          onClick={() => {
-            modaWindowQue("Вы уверены что хотите удалить пост?");
-            modaWindowVisible(true);
-            modalWindowIdPost(props.id);
-            modalWindowUserPost(props.user);
-          }}
-        />
+        {deleteBtnIsVisible && (
+          <X
+            className="cursor-pointer"
+            onClick={() => {
+              modaWindowQue("Вы уверены что хотите удалить пост?");
+              modaWindowVisible(true);
+              modalWindowIdPost(props.id);
+              modalWindowUserPost(props.user);
+            }}
+          />
+        )}
       </div>
 
       <div className="flex justify-start flex-col w-80 items-start gap-8 pb-4">
@@ -150,7 +157,6 @@ export default function Post(props: Post) {
               commentModal(true);
               user(props.user);
               post(props.id);
-              console.log(props.id);
             }}
           >
             <ChatCircleText className="w-6 h-6" />

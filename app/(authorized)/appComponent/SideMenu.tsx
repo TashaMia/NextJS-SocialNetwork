@@ -1,7 +1,7 @@
 "use client";
 import { Bell, HouseLine, Plus, User, SignOut } from "@phosphor-icons/react";
 import Link from "next/link";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { modalWindow, textFieldAtom } from "../../atoms";
 import { modalWindowQuestion } from "../../modalWindow/ModalWindow";
 

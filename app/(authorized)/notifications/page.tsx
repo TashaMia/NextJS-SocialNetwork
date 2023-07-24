@@ -12,6 +12,7 @@ interface INotifications {
 export default function NotificationSection() {
   const userIsOnline =
     typeof window != "undefined" ? localStorage.getItem("userId") : "";
+
   const notifications = useGetNotificationsV2({
     isFilter: true,
     filter: userIsOnline,

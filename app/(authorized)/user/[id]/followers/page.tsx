@@ -12,11 +12,13 @@ interface ISubscribtion {
 
 export default function FollowersSection() {
   const params = useParams();
+
   const followersData = useGetFollowers({
     isFilter: true,
     filter: params.id,
     filterColumn: "subscribedTo",
   });
+
   return (
     <div className="feed w-screen  sm:w-full">
       <div className="w-[100%] sm:w-[100%]  mb-24 flex flex-col justify-center items-center">

@@ -19,11 +19,13 @@ export default function MenuLayout({
   const commentWindowOpen = useAtomValue(modalComm);
   const [modalWindowOpened, setModalWindowOpened] = useAtom(modalWindow);
   const modaWindowQue = useSetAtom(modalWindowQuestion);
+
   setTimeout(() => {
     const user =
       typeof window != "undefined" ? localStorage?.getItem("userId") : "";
     setUserId(user);
   }, 1000);
+
   return (
     <div className="sm:h-[100%]">
       {commentWindowOpen && <ModalComments />}

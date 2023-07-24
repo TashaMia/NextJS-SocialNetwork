@@ -11,14 +11,14 @@ interface ISubscribtion {
 }
 
 export default function SubscriptionSection() {
-  const userIsOnline =
-    typeof window != "undefined" ? localStorage.getItem("userId") : "";
   const params = useParams();
+
   const subscriptionsData = useGetSubscriptions({
     isFilter: true,
     filter: params.id,
     filterColumn: "user",
   });
+
   return (
     <div className="feed w-screen   sm:w-full">
       <div className=" sm:w-[100%]  mb-24 flex flex-col justify-center items-center">

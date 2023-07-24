@@ -6,7 +6,9 @@ export default function Comment(props: any) {
     isFilter: true,
     filter: props.comment.commentator,
   });
+
   const id = users && users[0].id.slice(0, 7);
+
   return (
     <div className="flex justify-start flex-col w-80 items-start pl-2 pb-4">
       <div className="h-12 w-[1px] bg-slate-300"></div>

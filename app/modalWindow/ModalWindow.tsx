@@ -1,10 +1,8 @@
 "use client";
 import { atom, useAtom, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
-import useMutateDeletePost from "../useMutateDeletePost";
 import { modalWindow } from "../atoms";
 import useMutateDeletePostsV2 from "../useMutateDeletePostV2";
-import useGetPostsV2 from "../useGetPostsV2";
 import { useSWRConfig } from "swr";
 export const modalWindowQuestion = atom<string>("");
 export const idPost = atom<number>(0);
@@ -13,12 +11,14 @@ export const userPost = atom<string>("");
 export default function ModalWindow() {
   const { mutate } = useSWRConfig();
   const router = useRouter();
+
   const modaWindowVisible = useSetAtom(modalWindow);
   const [modalWindowQ, setModalWindowQ] = useAtom(modalWindowQuestion);
   const [modalWindowIdPost, setModalWindowIdPost] = useAtom(idPost);
   const [modalWindowUserPost, setModalWindowUserPost] = useAtom(userPost);
 
   const { trigger: deletePost } = useMutateDeletePostsV2();
+
   return (
     <div className="w-screen flex justify-center items-center h-screen fixed bg-slate-500/[0.4] z-10">
       <div className="w-[80%] h-[25%] drop-shadow-xl rounded-xl flex flex-col justify-between p-4  items-center gap-4 bg-white sm:w-96 sm:h-60">

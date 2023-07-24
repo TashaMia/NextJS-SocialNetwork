@@ -1,9 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
-// import useMutateEditUser from "../../../../useMutateEditUser";
-// import useMutateEditUserV2 from "../../../../useMutateEditUserV2";
 import { mutate } from "swr";
 import useMutateEditUserV2 from "../../../useMutateEditUserV2";
-// import { useChangeUserInfoMutation } from "./usersApi";
+
 interface IUser {
   data: {
     email: string;
@@ -22,11 +20,10 @@ export default function EditProfile(props: IUser) {
 
   const { trigger } = useMutateEditUserV2();
 
-  const userIndex = localStorage.getItem("user");
-
   function editName(event: React.FormEvent<HTMLInputElement>) {
     setFirstName(event.currentTarget.value);
   }
+
   function editLastName(event: React.FormEvent<HTMLInputElement>) {
     setLastName(event.currentTarget.value);
   }

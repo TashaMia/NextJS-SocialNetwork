@@ -48,7 +48,8 @@ export default function AddPost() {
     }
   }
 
-  const { trigger, isMutating } = useMutatePostsV2();
+  const { trigger } = useMutatePostsV2();
+
   const handleAddPost = () => {
     if (picture) {
       trigger(
@@ -108,6 +109,7 @@ export default function AddPost() {
     }
     textFieldVisible(false);
   };
+
   const userLogedId = localStorage.getItem("userId");
 
   const users = useGetUsersV2({

@@ -1,15 +1,11 @@
 "use client";
-import { ChangeEvent, useEffect, useReducer, useRef, useState } from "react";
-import useGetUsers from "../../../useGetUsers";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import PostsList from "../../feed/feedComponent/PostsList";
-// import EditProfile from "./userComponents/EditProfile";
 import { useParams } from "next/navigation";
 import useFileloader from "../../../useFileLoader";
 import { FileImage, Spinner } from "@phosphor-icons/react";
 import useGetUsersV2 from "../../../useGetUsersV2";
 import { createClient } from "@supabase/supabase-js";
-// import useMutateUsersV2 from "../../../useMutateUsersV2";
-// import useGetRegistrationStatus from "../../../useGetRegistrationStatus";
 import EditProfile from "../userComponents/EditProfile";
 import Subscriptions from "../userComponents/SubscriptionsBtn";
 import useGetSubscriptions from "../../../useGetSubscriptions";
@@ -28,12 +24,15 @@ export default function User() {
 
   const params = useParams();
   const currentUser = params.id;
+
   async function getUserData() {
     let allUsers = supabase.from(`users`).select("*").eq("id", userId);
     return allUsers;
   }
   getUserData();
+
   const [isLogInUser, setIsLogInUser] = useState(false);
+
   useEffect(() => {
     if (params.id == userId) {
       setIsLogInUser(true);
@@ -44,11 +43,13 @@ export default function User() {
     isFilter: true,
     filter: currentUser,
   });
+
   const [editIsVisible, setEditIsVisible] = useState(false);
   const [newUserImage, setNewUserImage] = useState();
   const [picture, setPicture] = useState<File | null>(null);
   const filePicker = useRef<HTMLInputElement>(null);
   const [done, setDone] = useState("");
+
   function handleChangeFiles(event: ChangeEvent<HTMLInputElement>) {
     const files = event?.currentTarget?.files;
     setPicture(files && files[0]);
@@ -70,6 +71,7 @@ export default function User() {
     setDone("");
     location.reload();
   }
+
   async function changeUserPicture() {
     const { data, error } = await supabase
       .from(`users`)
@@ -79,6 +81,7 @@ export default function User() {
       .eq("id", userId)
       .select();
   }
+
   const followersData = useGetFollowers({
     isFilter: true,
     filter: currentUser,

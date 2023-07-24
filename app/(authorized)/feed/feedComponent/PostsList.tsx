@@ -21,6 +21,7 @@ export default function PostsList(props: IFilter) {
     isFilter: props.isFilter,
     filter: props.filter,
   });
+
   const postList = posts.data as Post[];
 
   return (

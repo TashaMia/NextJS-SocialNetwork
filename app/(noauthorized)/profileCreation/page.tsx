@@ -37,10 +37,12 @@ export default function ProfieCreation() {
   function getLastName(event: React.FormEvent<HTMLInputElement>) {
     setLastName(event.currentTarget.value);
   }
+
   const [loader, setLoader] = useState(false);
 
   const fileLoader = useFileloader(setNewUserImage);
   const { trigger, isMutating } = useMutateUsers();
+
   useEffect(() => {
     fileLoader(userIndex, picture, setDone, setLoader);
     picture !== null && done !== "Done" ? setLoader(true) : setLoader(false);
@@ -58,8 +60,6 @@ export default function ProfieCreation() {
       },
     });
   };
-  // console.log(picture);
-  // console.log(done);
 
   return (
     <div className="flex flex-col items-center mt-2 mb-2 ">
