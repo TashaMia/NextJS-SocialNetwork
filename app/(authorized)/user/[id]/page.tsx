@@ -12,6 +12,8 @@ import useGetSubscriptions from "../../../useGetSubscriptions";
 import Link from "next/link";
 import useGetFollowers from "../../../useGetFollowers";
 import useGetPostsV2 from "../../../useGetPostsV2";
+import Spin from "../../../Spin";
+import Image from "next/image";
 
 export default function User() {
   const supabase = createClient(
@@ -82,22 +84,26 @@ export default function User() {
       .select();
   }
 
-  const followersData = useGetFollowers({
-    isFilter: true,
-    filter: currentUser,
-    filterColumn: "subscribedTo",
-  });
+  const { data: followersData, isLoading: isLoadingFollowers } =
+    useGetFollowers({
+      isFilter: true,
+      filter: currentUser,
+      filterColumn: "subscribedTo",
+    });
 
-  const subscriptionsData = useGetSubscriptions({
-    isFilter: true,
-    filter: currentUser,
-    filterColumn: "user",
-  });
+  const { data: subscriptionsData, isLoading: isLoadingSubscriptions } =
+    useGetSubscriptions({
+      isFilter: true,
+      filter: currentUser,
+      filterColumn: "user",
+    });
 
-  const posts = useGetPostsV2({
+  const { data: posts, isLoading: isLoadingPosts } = useGetPostsV2({
     isFilter: true,
     filter: params.id,
   });
+
+  const classSpinStyle = "w-6 h-6";
 
   return (
     <div className="flex flex-col justify-start w-full  gap-4">
@@ -110,7 +116,9 @@ export default function User() {
                   onClick={handlePick}
                   className=" w-28 h-28  rounded-xl  fixed  hover:bg-slate-400/[0.2]"
                 >
-                  <Spinner className=" h-10 ml-10 mt-4 w-10 opacity-100 text-slate-200  animate-spin" />
+                  <div className="w-6 h-6 pl-12">
+                    <Spin />
+                  </div>{" "}
                 </button>
               ) : (
                 <button
@@ -125,7 +133,7 @@ export default function User() {
               )}
 
               {users && (
-                <img
+                <Image
                   src={
                     users[0]?.picture !== null
                       ? users[0]?.picture
@@ -133,6 +141,8 @@ export default function User() {
                   }
                   alt="user photo"
                   className="w-28 object-cover h-28 rounded-xl sm:w-28 sm:h-28 hover:opacity-50"
+                  width={200}
+                  height={200}
                 />
               )}
 
@@ -154,18 +164,26 @@ export default function User() {
               <div className="flex justify-start items-start w-[100%] gap-4 mt-4">
                 <Link href={`/user/${params.id}/subscriptions`}>
                   <div className="flex flex-col justify-center items-center text-xs">
-                    <p>{subscriptionsData?.length}</p>
+                    {isLoadingSubscriptions ? (
+                      <Spin />
+                    ) : (
+                      <p>{subscriptionsData?.length}</p>
+                    )}
                     <p>Подписок</p>
                   </div>
                 </Link>
                 <Link href={`/user/${params.id}/followers`}>
                   <div className="flex flex-col justify-center items-center text-xs">
-                    <p>{followersData?.length}</p>
+                    {isLoadingFollowers ? (
+                      <Spin />
+                    ) : (
+                      <p>{followersData?.length}</p>
+                    )}
                     <p>Подписчика</p>
                   </div>
                 </Link>
                 <div className="flex flex-col justify-center items-center text-xs">
-                  <p>{posts.data?.length}</p>
+                  {isLoadingPosts ? <Spin /> : <p>{posts?.length}</p>}
                   <p>Постов</p>
                 </div>
               </div>

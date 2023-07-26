@@ -28,5 +28,5 @@ export default function useGetSubscriptions({
     ([key]) => getSubscriptions(key)
   );
 
-  return data;
+  return { data, isLoading };
 }

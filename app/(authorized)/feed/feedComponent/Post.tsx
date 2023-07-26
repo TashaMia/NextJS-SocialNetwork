@@ -15,12 +15,13 @@ import {
   userWhoIsCommenting,
 } from "../../../atoms";
 import useGetUsersV2 from "../../../useGetUsersV2";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import useMutateLikePostV2 from "../../../useMutateLikePostV2";
 import useMutateNotificationsV2 from "../../../useMutateNotificationsV2";
 import CommentSection from "../CommentSection";
 import useGetLikePost from "../../../useGetLikePost";
 import useMutateDeleteLikePost from "../../../useMutateDeleteLikePost";
+import Image from "next/image";
 
 interface Body {
   text: string;
@@ -91,7 +92,6 @@ export default function Post(props: Post) {
   const post = useSetAtom(postID);
 
   const deleteBtnIsVisible = props.user == userId;
-
   return (
     <div
       className="flex flex-col rounded-xl border border-1 w-[95%]  p-6 gap-2  "
@@ -117,13 +117,16 @@ export default function Post(props: Post) {
         <Link href={`/user/${props.user}`}>
           <div className="flex gap-2 items-center">
             {users && (
-              <img
+              <Image
                 src={
                   users[0]?.picture !== null
                     ? users[0]?.picture
                     : "https://avatars.mds.yandex.net/i?id=f2278dbde793622d022c098dbf4e22323a59974e-9233495-images-thumbs&n=13"
                 }
                 className="w-100% h-14 w-14 rounded-xl object-cover  bg-slate-100"
+                alt="user picture"
+                width={200}
+                height={200}
               />
             )}
             <div className="flex gap-2 flex-col items-start font-semibold">
@@ -142,11 +145,13 @@ export default function Post(props: Post) {
           <p className=" text-start text-normal w-[95%]">{props.textOfPost}</p>
         </div>
         {props.body.picture && props.body.picture ? (
-          <img
+          <Image
             src={props.body.picture}
             alt="post picture"
             className="rounded-xl w-[250px] sm:max-w-[75%] sm:w-[300px]"
-          ></img>
+            width={300}
+            height={300}
+          />
         ) : (
           <div></div>
         )}
@@ -201,8 +206,8 @@ export default function Post(props: Post) {
               weight={{ ...likePost?.data }[0]?.liked ? "fill" : "regular"}
               className={
                 { ...likePost?.data }[0]?.liked
-                  ? "text-red-600 text-2xl cursor-pointer w-6 h-6"
-                  : " text-xl cursor-pointer w-6 h-6"
+                  ? " like-animation text-red-400 text-2xl cursor-pointer "
+                  : "text-xl cursor-pointer w-6 h-6"
               }
             />
           </button>

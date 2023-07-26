@@ -2,6 +2,7 @@ import Link from "next/link";
 import useGetUsersV2 from "../../../../useGetUsersV2";
 import { useEffect, useState } from "react";
 import { Spinner } from "@phosphor-icons/react";
+import Image from "next/image";
 
 export default function FollowersItem(props: { user: string }) {
   const users = useGetUsersV2({
@@ -15,7 +16,7 @@ export default function FollowersItem(props: { user: string }) {
       className="flex border border-1 border-slate-200 gap-4 p-4  rounded-sm w-[100%] justify-start items-center text-start"
     >
       {users && (
-        <img
+        <Image
           src={
             users[0]?.picture !== null
               ? users[0]?.picture
@@ -23,6 +24,8 @@ export default function FollowersItem(props: { user: string }) {
           }
           alt="user photo"
           className="w-100% h-14 object-cover w-14 rounded-xl bg-slate-100 md:h-20 md:w-20"
+          width={200}
+          height={200}
         />
       )}
       <p>

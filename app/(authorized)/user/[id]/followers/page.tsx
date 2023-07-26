@@ -13,7 +13,7 @@ interface ISubscribtion {
 export default function FollowersSection() {
   const params = useParams();
 
-  const followersData = useGetFollowers({
+  const { data: followersData } = useGetFollowers({
     isFilter: true,
     filter: params.id,
     filterColumn: "subscribedTo",

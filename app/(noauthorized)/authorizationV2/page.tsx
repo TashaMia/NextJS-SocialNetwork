@@ -44,7 +44,7 @@ export default function AuthorizationV2() {
       email: email,
       options: {
         emailRedirectTo: "https://next-js-social-network-steel.vercel.app/feed",
-        //emailRedirectTo: "http://localhost:3002/feed",
+        // emailRedirectTo: "http://localhost:3002/feed",
       },
     });
   }
@@ -83,13 +83,13 @@ export default function AuthorizationV2() {
               type="button"
               onClick={() => {
                 logIn();
-                setBtn(`Отпрвление...`);
+                setBtn(`Отправление...`);
                 setTimeout(() => {
                   setBtn("Отправлено");
                 }, 7000);
                 setTimeout(() => {
                   setBtn("Отправить");
-                }, 15000);
+                }, 13000);
               }}
               className="h-12 flex justify-center items-center p-4 w-[90%] text-white rounded-3xl border border-slate-600 bg-slate-400 "
             >

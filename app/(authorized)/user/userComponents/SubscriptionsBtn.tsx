@@ -50,7 +50,7 @@ export default function Subscriptions() {
     );
   };
 
-  const checkSuscriptions = useGetSubscriptions({
+  const { data: checkSuscriptions } = useGetSubscriptions({
     isFilter: true,
     filter: userLogedId,
     filterColumn: "user",

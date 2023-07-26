@@ -13,7 +13,7 @@ interface ISubscribtion {
 export default function SubscriptionSection() {
   const params = useParams();
 
-  const subscriptionsData = useGetSubscriptions({
+  const { data: subscriptionsData } = useGetSubscriptions({
     isFilter: true,
     filter: params.id,
     filterColumn: "user",

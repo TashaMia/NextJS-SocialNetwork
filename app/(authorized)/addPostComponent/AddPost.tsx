@@ -1,13 +1,31 @@
 "use client";
 import { useSetAtom } from "jotai";
-import { ArrowUp, Check, Circle, Paperclip, X } from "@phosphor-icons/react";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import {
+  ArrowUp,
+  Check,
+  Circle,
+  Paperclip,
+  Spinner,
+  X,
+} from "@phosphor-icons/react";
+import {
+  ChangeEvent,
+  ReactNode,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { mutate } from "swr";
 import { textFieldAtom } from "../../atoms";
 import useMutatePostsV2 from "../../useMutatePostsV2";
 import useGetUsersV2 from "../../useGetUsersV2";
 import { createClient } from "@supabase/supabase-js";
+import useGetPostsV2 from "../../useGetPostsV2";
+import { JsxElement } from "typescript";
+import Image from "next/image";
 
 export default function AddPost() {
   const refText = useRef<HTMLTextAreaElement>(null);
@@ -27,31 +45,40 @@ export default function AddPost() {
     filePicker?.current?.click();
   }
   const [picture, setPicture] = useState<File | null>(null);
-
-  function handleChangeFiles(event: ChangeEvent<HTMLInputElement>) {
-    const files = event?.currentTarget?.files;
-    setPicture(files && files[0]);
-  }
-  const random = Math.random();
-
+  const id = useId();
+  console.log(id);
   const bucket = "postImg";
-  const filePath = `${bucket}/newFile-${random}.jpg`;
+  // const filePath = `${bucket}/${userId}-${id}.jpg`;
+  const filePath = useMemo(
+    () =>
+      `${bucket}/${userId}-${id}${self.crypto.getRandomValues(
+        new Uint32Array(10)
+      )}.jpg`,
+    [bucket, userId, id]
+  );
+  const [imageLoader, setImageLoader] = useState<string>("download");
+  async function handleChangeFiles(event: ChangeEvent<HTMLInputElement>) {
+    const files = event.currentTarget.files as FileList;
+    if (!files) return;
+    const file = files[0];
+    setPicture(file && file);
 
-  async function uploadePostFile() {
-    if (picture) {
-      const { data, error } = await supabase.storage
-        .from(bucket)
-        .upload(filePath, picture);
-      if (error) {
-        throw error;
-      }
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .upload(filePath, file);
+
+    if (error) {
+      console.log("error");
+    } else {
+      setImageLoader("loaded");
+      console.log("success");
     }
   }
 
   const { trigger } = useMutatePostsV2();
-  console.log(refText.current?.value);
+
   const handleAddPost = () => {
-    if (picture && refText.current?.value == undefined) {
+    if (picture && refText.current?.value == "") {
       trigger(
         {
           body: {
@@ -109,7 +136,6 @@ export default function AddPost() {
     }
     textFieldVisible(false);
   };
-
   const userLogedId = localStorage.getItem("userId");
 
   const users = useGetUsersV2({
@@ -117,77 +143,87 @@ export default function AddPost() {
     filter: userLogedId,
   });
 
-  const [statusLoadingProcess, setStatusLoadingProcess] = useState("Загрузить");
-
   useEffect(() => {
     if (picture !== null) {
-      setStatusLoadingProcess("Загружается");
+      setImageLoader("loading");
     }
   }, [picture]);
 
-  if (statusLoadingProcess == "Загружается") {
-    setTimeout(() => {
-      setStatusLoadingProcess("Загружено");
-    }, 2000);
-  }
-  if (statusLoadingProcess == "Загружено") {
-    setTimeout(() => {
-      setStatusLoadingProcess("Загрузить");
-    }, 3000);
-  }
+  type ImageStatusType = {
+    [index: string]: ReactNode;
+  };
+  const imageStatus = {
+    loaded: (
+      <div className="rounded-lg w-[75%] h-[100%]  mt-4 p-4 pr-10">
+        {" "}
+        <Image
+          src={`https://ifutxtlqsucntyibpetb.supabase.co/storage/v1/object/public/postImg/${filePath}`}
+          className="rounded-lg "
+          width={200}
+          height={200}
+          alt="post picture"
+        />
+      </div>
+    ),
+    loading: (
+      <div className="skeleton-box w-[75%] mr-4 rounded-lg h-52 mt-4 "></div>
+    ),
+    download: <></>,
+  } as ImageStatusType;
 
   return (
     <div className="fixed z-10 w-screen h-screen bg-black/[0.3] sm:flex sm:justify-center sm:items-center">
-      <div className="fixed h-[90%] bottom-0 w-screen bg-white rounded-t-xl sm:w-96 sm:h-60 sm:bottom-auto sm:rounded-xl">
+      <div className="fixed h-[90%] bottom-0 w-screen bg-white rounded-t-xl sm:w-96 sm:h-fit p-4 sm:bottom-auto sm:rounded-xl">
         <div className="flex justify-start p-2 gap-28">
           <button onClick={() => textFieldVisible(false)}>
             <X />
           </button>
           <p className=" font-bold">Отправить пост</p>
         </div>
+
         <div className="flex gap-4 p-4">
-          <img
+          <Image
             src={users && users[0]?.picture}
             className="w-14 h-14 bg-cover rounded-xl"
-          ></img>
+            alt="user picture"
+            width={200}
+            height={200}
+          />
           <textarea
-            className="outline-slate-400  outline-1 rounded-xl h-20 w-[75%] border p-2 border-slate-300"
+            className="outline-slate-400  outline-1 rounded-xl h-20 w-[85%] border p-2 border-slate-300"
             ref={refText}
             autoFocus
           ></textarea>
         </div>
-        <div className="sm:w-[100%] flex justify-end">
-          <div className="flex items-start w-[75%] sm:w-[80%] justify-between  pr-10">
+        <div className="sm:w-[100%] flex flex-col items-end py-4 justify-center">
+          <div className="flex items-start w-[78%] sm:w-[78%] justify-between  pr-5">
             <button
               onClick={() => {
                 handlePick();
               }}
             >
-              {statusLoadingProcess == "Загрузить" && (
-                <Paperclip className=" cursor-pointer" />
-              )}
-              {statusLoadingProcess == "Загружается" && <Circle />}
-              {statusLoadingProcess == "Загружено" && (
-                <Check className="text-green-700" />
-              )}
+              <Paperclip className=" cursor-pointer" />
             </button>
             <input
               className="opacity-0 h-0 w-0 leading-[0px] overflow-hidden p-0 m-0"
               ref={filePicker}
               type="file"
-              onChange={handleChangeFiles}
+              onChange={(e) => {
+                handleChangeFiles(e);
+              }}
               accept="image/*,.png,.jpg,.gif"
             />
+
             <button
               className="flex justify-center items-center rounded-full bg-blue-800	 p-2 w-10 h-10"
               onClick={() => {
-                uploadePostFile();
                 handleAddPost();
               }}
             >
               <ArrowUp className="w-8 h-8 text-white" />
             </button>
           </div>
+          <>{imageStatus[imageLoader]}</>
         </div>
       </div>
     </div>

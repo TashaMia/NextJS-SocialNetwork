@@ -26,5 +26,5 @@ export default function useGetFollowers({
     [`subscriptions`, filter, filterColumn],
     ([key]) => getFollowers(key)
   );
-  return data;
+  return { data, isLoading };
 }

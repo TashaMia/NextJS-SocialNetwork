@@ -8,6 +8,7 @@ import useFileloader from "../../useFileLoader";
 import useGetUsers from "../../useGetUsers";
 import useMutateUsers from "../../useMutateUsers";
 import { emailAt, passwordAt } from "../../atoms";
+import Image from "next/image";
 
 export default function ProfieCreation() {
   const [firstName, setFirstName] = useState("");
@@ -81,7 +82,7 @@ export default function ProfieCreation() {
               <FileImage className=" h-8 ml-24 mt-24 w-6  text-black  " />
             </button>
           )}
-          <img
+          <Image
             src={
               newUserImage
                 ? `https://firebasestorage.googleapis.com/v0/b/file-uploade.appspot.com/o/user-image-${userIndex}?alt=media&token=95f60686-e686-4cde-b037-83c58beec57e`
@@ -89,6 +90,8 @@ export default function ProfieCreation() {
             }
             alt="avatar"
             className="w-32 h-32  rounded-xl object-cover"
+            width={300}
+            height={300}
           />
 
           <input

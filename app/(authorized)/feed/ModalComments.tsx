@@ -5,6 +5,7 @@ import useGetUsersV2 from "../../useGetUsersV2";
 import { useRef } from "react";
 import useMutateCommentPost from "../../useMutateCommentPost";
 import { mutate } from "swr";
+import Image from "next/image";
 
 export default function ModalComments() {
   const refText = useRef<HTMLTextAreaElement>(null);
@@ -46,7 +47,7 @@ export default function ModalComments() {
   return (
     <div className="fixed z-10 w-screen h-screen sm:flex sm:justify-center sm:items-center bg-black/[0.3]">
       <div className="fixed h-[90%] bottom-0 w-screen bg-white rounded-t-xl  sm:w-96 sm:h-60 sm:bottom-auto sm:rounded-xl">
-        <div className="flex items-center justify-start gap-24 p-4">
+        <div className="flex items-center justify-start gap-40 p-4">
           <button
             onClick={() => {
               comment(false);
@@ -57,18 +58,21 @@ export default function ModalComments() {
           </button>
           <p className=" font-bold">Ответить на пост</p>
         </div>
-        <div className="flex gap-4 p-4">
-          <img
+        <div className="flex pl-6 gap-4 p-4">
+          <Image
             src={users && users[0]?.picture}
             className="w-14 h-14 bg-cover rounded-xl"
-          ></img>
+            width={200}
+            height={200}
+            alt="user picture"
+          />
           <textarea
             className="outline-slate-400  outline-1 rounded-xl h-20 w-[75%] border p-2 border-slate-300"
             ref={refText}
             autoFocus
           ></textarea>
         </div>
-        <div className="flex items-start  w-[85%] sm:w-[95%] justify-end px-4">
+        <div className="flex items-start  w-[90%] sm:w-[95%] justify-end px-4">
           <button
             onClick={() => {
               handleAddComment();
