@@ -110,12 +110,12 @@ export default function User() {
     <div className="flex flex-col justify-start w-[100%]  gap-4">
       <div className="flex flex-col justify-start items-start w-[100%] gap-14">
         <div className="flex flex-col w-[100%]">
-          <div className=" flex justify-start w-[100%] gap-12 items-start p-4  ">
+          <div className=" flex justify-start w-[100%] gap-4 items-start p-4  ">
             <div className=" relative w-32 h-32">
               {loader ? (
                 <button
                   onClick={handlePick}
-                  className=" w-28 h-28  rounded-xl  fixed  hover:bg-slate-400/[0.2]"
+                  className=" w-32 h-32  rounded-xl  fixed  hover:bg-slate-400/[0.2]"
                 >
                   <div className="w-6 h-6 pl-12">
                     <Spin />
@@ -141,7 +141,7 @@ export default function User() {
                       : "https://avatars.mds.yandex.net/i?id=f2278dbde793622d022c098dbf4e22323a59974e-9233495-images-thumbs&n=13"
                   }
                   alt="user photo"
-                  className="w-28 object-cover z-0 fixed h-28 rounded-xl sm:w-28 sm:h-28 hover:opacity-50"
+                  className="w-28 object-cover z-0 static h-28 rounded-xl sm:w-28 sm:h-28 hover:opacity-50"
                 ></img>
               )}
 
@@ -153,7 +153,7 @@ export default function User() {
                 accept="image/*,.png,.jpg,.gif"
               />
             </div>
-            <div className="flex flex-col w-[100%] items-start">
+            <div className="flex flex-col w-[70%] items-start">
               <div className="flex  justify-between items-start w-[100%]  font-semibold">
                 <div className="flex flex-col justify-start">
                   <div className="flex flex-row gap-1 font-semibold">

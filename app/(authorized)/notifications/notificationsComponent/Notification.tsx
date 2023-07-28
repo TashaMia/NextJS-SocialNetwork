@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import useGetUsersV2 from "../../../useGetUsersV2";
 
 interface ILiker {
@@ -15,7 +14,7 @@ export default function Notification(props: ILiker) {
   return (
     <div className="flex border border-1 border-slate-200 gap-2 p-4  rounded-sm w-[100%] justify-start items-start text-start">
       {users && (
-        <Image
+        <img
           src={
             users[0]?.picture !== null
               ? users[0]?.picture
@@ -25,7 +24,7 @@ export default function Notification(props: ILiker) {
           className="w-100% h-14 object-cover w-14 rounded-xl bg-slate-100 md:h-20 md:w-20"
           width={200}
           height={200}
-        />
+        ></img>
       )}
       <p>
         Пользователь{" "}

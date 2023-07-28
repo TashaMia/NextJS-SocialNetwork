@@ -16,7 +16,6 @@ import { textFieldAtom } from "../../atoms";
 import useMutatePostsV2 from "../../useMutatePostsV2";
 import useGetUsersV2 from "../../useGetUsersV2";
 import { createClient } from "@supabase/supabase-js";
-import Image from "next/image";
 
 export default function AddPost() {
   const refText = useRef<HTMLTextAreaElement>(null);
@@ -144,13 +143,13 @@ export default function AddPost() {
     loaded: (
       <div className="rounded-lg w-[75%] h-[100%]  mt-4 p-4 pr-10">
         {" "}
-        <Image
+        <img
           src={`https://ifutxtlqsucntyibpetb.supabase.co/storage/v1/object/public/postImg/${filePath}`}
           className="rounded-lg "
           width={200}
           height={200}
           alt="post picture"
-        />
+        ></img>
       </div>
     ),
     loading: (
@@ -162,21 +161,23 @@ export default function AddPost() {
   return (
     <div className="fixed z-10 w-screen h-screen bg-black/[0.3] sm:flex sm:justify-center sm:items-center">
       <div className="fixed h-[90%] bottom-0 w-screen bg-white rounded-t-xl sm:w-96 sm:h-fit p-4 sm:bottom-auto sm:rounded-xl">
-        <div className="flex justify-start p-2 gap-28">
+        <div className="flex justify-start p-2 ">
           <button onClick={() => textFieldVisible(false)}>
             <X />
           </button>
-          <p className=" font-bold">Отправить пост</p>
+          <div className="flex justify-center items-center w-[90%]">
+            <p className=" font-bold">Отправить пост</p>
+          </div>
         </div>
 
         <div className="flex gap-4 p-4">
-          <Image
+          <img
             src={users && users[0]?.picture}
             className="w-14 h-14 bg-cover rounded-xl"
             alt="user picture"
             width={200}
             height={200}
-          />
+          ></img>
           <textarea
             className="outline-slate-400  outline-1 rounded-xl h-20 w-[85%] border p-2 border-slate-300"
             ref={refText}
