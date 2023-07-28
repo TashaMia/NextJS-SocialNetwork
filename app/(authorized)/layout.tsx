@@ -4,7 +4,6 @@ import {
   Bell,
   Plus,
   User,
-  SignOut,
   MagnifyingGlass,
 } from "@phosphor-icons/react";
 import Link from "next/link";
@@ -28,7 +27,6 @@ export default function MenuLayout({
   const commentWindowOpen = useAtomValue(modalComm);
   const [modalWindowOpened, setModalWindowOpened] = useAtom(modalWindow);
   const [modalWindowSearch, setModalWindowSearch] = useAtom(stopScroll);
-  // const modaWindowQue = useSetAtom(modalWindowQuestion);
 
   const path = usePathname();
   const params = useParams();
@@ -90,17 +88,6 @@ export default function MenuLayout({
             weight={path == "/notifications" ? "fill" : "regular"}
           />
         </Link>
-
-        {/* <button
-          onClick={() => {
-            modaWindowQue("Вы уверены что хотите выйти?");
-
-            setModalWindowOpened(true);
-          }}
-          className="w-11 h-11 flex justify-center items-center"
-        >
-          <SignOut className="w-6 h-6 text-gray-900" />
-        </button> */}
 
         <Link
           href={`/user/${userId}`}

@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import FollowersItem from "./FollowersItem";
 import useGetFollowers from "../../../../useGetFollowers";
+
 interface ISubscribtion {
   id: number;
   created_at: string;

@@ -1,14 +1,10 @@
 "use client";
-import { Bell, HouseLine, Plus, User, SignOut } from "@phosphor-icons/react";
+import { Bell, HouseLine, Plus, User } from "@phosphor-icons/react";
 import Link from "next/link";
-import { useAtom, useSetAtom } from "jotai";
-import { modalWindow, textFieldAtom } from "../../atoms";
-import { modalWindowQuestion } from "../../modalWindow/ModalWindow";
+import { useSetAtom } from "jotai";
+import { textFieldAtom } from "../../atoms";
 
 export default function SideMenu() {
-  const modaWindowQue = useSetAtom(modalWindowQuestion);
-  const [modalWindowOpened, setModalWindowOpened] = useAtom(modalWindow);
-
   const setOpenTextFiled = useSetAtom(textFieldAtom);
   const userId =
     typeof window != "undefined" ? localStorage.getItem("userId") : "";
@@ -39,17 +35,6 @@ export default function SideMenu() {
         <Plus className="w-6 h-6  text-white rounded-full bg-gray-800 " />
         <p>Пост</p>
       </button>
-      {/* <button
-        className="flex h-10 gap-2 justify-start p-1 items-center px-4"
-        onClick={() => {
-          modaWindowQue("Вы уверены что хотите выйти?");
-
-          setModalWindowOpened(true);
-        }}
-      >
-        <SignOut className="w-6 h-6 text-gray-900 " />
-        <p>Выйти</p>
-      </button> */}
     </div>
   );
 }

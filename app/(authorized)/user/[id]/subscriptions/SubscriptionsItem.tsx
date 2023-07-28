@@ -1,7 +1,5 @@
 import Link from "next/link";
 import useGetUsersV2 from "../../../../useGetUsersV2";
-import { useEffect, useState } from "react";
-import { Spinner } from "@phosphor-icons/react";
 import Image from "next/image";
 
 export default function SubscriptionsItem(props: { subscribedTo: string }) {

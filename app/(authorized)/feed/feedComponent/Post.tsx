@@ -73,6 +73,7 @@ export default function Post(props: Post) {
       }
     );
   };
+
   const userId =
     typeof window != "undefined" ? localStorage?.getItem("userId") : "";
 
@@ -117,7 +118,7 @@ export default function Post(props: Post) {
         <Link href={`/user/${props.user}`}>
           <div className="flex gap-2 items-center">
             {users && (
-              <Image
+              <img
                 src={
                   users[0]?.picture !== null
                     ? users[0]?.picture
@@ -125,9 +126,7 @@ export default function Post(props: Post) {
                 }
                 className="w-100% h-14 w-14 rounded-xl object-cover  bg-slate-100"
                 alt="user picture"
-                width={200}
-                height={200}
-              />
+              ></img>
             )}
             <div className="flex gap-2 flex-col items-start font-semibold">
               <div className="flex gap-2">

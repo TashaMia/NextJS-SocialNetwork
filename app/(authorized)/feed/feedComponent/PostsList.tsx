@@ -2,10 +2,8 @@
 
 import { useAtomValue } from "jotai";
 import Spin from "../../../Spin";
-import Spinner from "../../../Spin";
 import { stopScroll } from "../../../atoms";
 import useGetPostsV2 from "../../../useGetPostsV2";
-import Search from "../../Search/Search";
 import Post from "./Post";
 import { ViewportList } from "react-viewport-list";
 

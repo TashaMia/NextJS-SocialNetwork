@@ -1,6 +1,4 @@
-// import Autorithation from "./(noauthorized)/authorization/page";
 import AuthorizationV2 from "./(noauthorized)/authorizationV2/page";
-import AutorithationV2 from "./(noauthorized)/authorizationV2/page";
 
 export default function App() {
   return (

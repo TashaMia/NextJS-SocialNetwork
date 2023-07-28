@@ -1,11 +1,5 @@
-import { ArrowUp, X } from "@phosphor-icons/react";
-import { useAtomValue, useSetAtom } from "jotai";
-import { modalComm, postID, userWhoIsCommenting } from "../../atoms";
-import useGetUsersV2 from "../../useGetUsersV2";
-import { Dispatch, SetStateAction, useRef } from "react";
-import useMutateCommentPost from "../../useMutateCommentPost";
-import { mutate } from "swr";
-import Image from "next/image";
+import { X } from "@phosphor-icons/react";
+import { Dispatch, SetStateAction } from "react";
 import Search from "./Search";
 
 export default function SearchModalWindow(props: {

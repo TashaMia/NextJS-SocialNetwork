@@ -1,20 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import useGetSearchAnswer from "../../useGetSearchAnswer";
-import { MagnifyingGlass, MagnifyingGlassMinus } from "@phosphor-icons/react";
+import { MagnifyingGlass } from "@phosphor-icons/react";
 import Post from "../feed/feedComponent/Post";
 
 export default function Search() {
   const [searchText, setSearchText] = useState("");
 
   const answer = useGetSearchAnswer({ isFilter: true, filter: searchText });
-  console.log(answer);
+
   function getSearchRequest(event: React.FormEvent<HTMLInputElement>) {
     setSearchText(event.currentTarget.value);
   }
+
   const ref = useRef<HTMLInputElement | null>(null);
+
   useEffect(() => {
     ref.current?.focus();
   }, []);
+
   return (
     <div className="flex lg:w-[100%] overflow-hidden h-[70vh] lg:h-[100%] flex-col gap-4 justify-center p-2 items-center  ">
       <div className="flex w-[90%] justify-center  rounded-full p-2 px-4 items-center border border-slate-200">

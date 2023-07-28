@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import useGetSubscriptions from "../../../../useGetSubscriptions";
 import SubscriptionsItem from "./SubscriptionsItem";
+
 interface ISubscribtion {
   id: number;
   created_at: string;

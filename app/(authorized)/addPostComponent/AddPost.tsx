@@ -1,13 +1,6 @@
 "use client";
 import { useSetAtom } from "jotai";
-import {
-  ArrowUp,
-  Check,
-  Circle,
-  Paperclip,
-  Spinner,
-  X,
-} from "@phosphor-icons/react";
+import { ArrowUp, Paperclip, X } from "@phosphor-icons/react";
 import {
   ChangeEvent,
   ReactNode,
@@ -23,8 +16,6 @@ import { textFieldAtom } from "../../atoms";
 import useMutatePostsV2 from "../../useMutatePostsV2";
 import useGetUsersV2 from "../../useGetUsersV2";
 import { createClient } from "@supabase/supabase-js";
-import useGetPostsV2 from "../../useGetPostsV2";
-import { JsxElement } from "typescript";
 import Image from "next/image";
 
 export default function AddPost() {
@@ -46,9 +37,7 @@ export default function AddPost() {
   }
   const [picture, setPicture] = useState<File | null>(null);
   const id = useId();
-  console.log(id);
   const bucket = "postImg";
-  // const filePath = `${bucket}/${userId}-${id}.jpg`;
   const filePath = useMemo(
     () =>
       `${bucket}/${userId}-${id}${self.crypto.getRandomValues(
@@ -68,10 +57,9 @@ export default function AddPost() {
       .upload(filePath, file);
 
     if (error) {
-      console.log("error");
+      throw error;
     } else {
       setImageLoader("loaded");
-      console.log("success");
     }
   }
 
