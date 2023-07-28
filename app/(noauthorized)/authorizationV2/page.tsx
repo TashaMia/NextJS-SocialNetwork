@@ -6,6 +6,9 @@ import ModalWindow, {
 } from "../../modalWindow/ModalWindow";
 import { emailAt, modalWindow } from "../../atoms";
 import { createClient } from "@supabase/supabase-js";
+import Robot from "./Robot";
+import Spin from "../../Spin";
+import { Check } from "@phosphor-icons/react";
 
 export default function AuthorizationV2() {
   const [error, setError] = useState(false);
@@ -27,6 +30,8 @@ export default function AuthorizationV2() {
   function validationEmail() {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       return true;
+    } else {
+      return false;
     }
   }
 
@@ -43,27 +48,32 @@ export default function AuthorizationV2() {
     const { data, error } = await supabase.auth.signInWithOtp({
       email: email,
       options: {
-        emailRedirectTo: "https://next-js-social-network-steel.vercel.app/feed",
-        // emailRedirectTo: "http://localhost:3002/feed",
+        // emailRedirectTo: "https://next-js-social-network-steel.vercel.app/feed",
+        emailRedirectTo: "http://localhost:3002/feed",
       },
     });
   }
 
-  const [btn, setBtn] = useState("Отправить");
+  const [btn, setBtn] = useState(false);
+  const [successfulMailAlert, setSuccessfulMailAlert] = useState(false);
 
   return (
     <div>
       {modaWindowVisibleValue && <ModalWindow />}
 
-      <div className="flex flex-col items-center">
-        <div className="w-screen p-4 flex flex-col justify-center items-center gap-2">
-          <h1 className="text-xl ">
+      <div className="flex flex-col gap-4 items-center">
+        <div className="w-screen p-4 flex flex-col justify-center items-center gap-4">
+          <div className="w-24 h-24">
+            {" "}
+            <Robot />
+          </div>
+          <h1 className="text-xl w-80  font-mono">
             <b>Добро пожаловать в Роб - сервис микроблогов.</b>
           </h1>
         </div>
         <div className="border border-slate-600 w-80 h-96  rounded-xl ">
           <div className="flex gap-6 justify-center h-16 p-4">
-            <p>Авторизация</p>
+            <p className=" font-bold">Авторизация</p>
           </div>
           <div className="flex flex-col items-center justify-center">
             <div className="flex flex-col items-start p-4 justify-center gap-4 w-[100%]">
@@ -75,6 +85,7 @@ export default function AuthorizationV2() {
                 type="email"
                 value={email}
                 onChange={getEmail}
+                placeholder="Электронная почта"
                 className="border border-l-slate-400 w-[100%] rounded-xl h-10 p-2 hover:border-violet-600  focus:outline-none focus:ring focus:ring-violet-300"
               ></input>
             </div>
@@ -83,18 +94,24 @@ export default function AuthorizationV2() {
               type="button"
               onClick={() => {
                 logIn();
-                setBtn(`Отправление...`);
-                setTimeout(() => {
-                  setBtn("Отправлено");
-                }, 7000);
-                setTimeout(() => {
-                  setBtn("Отправить");
-                }, 13000);
+                if (validationEmail()) {
+                  setBtn(true);
+                  setTimeout(() => {
+                    setBtn(false);
+                    setSuccessfulMailAlert(true);
+                  }, 7000);
+                } else return;
               }}
-              className="h-12 flex justify-center items-center p-4 w-[90%] text-white rounded-3xl border border-slate-600 bg-slate-400 "
+              className="h-12 flex justify-center items-center p-4 w-[90%] text-white rounded-lg border   bg-black "
             >
-              {btn}
+              {btn ? <Spin /> : <div>Отправить</div>}
             </button>
+            {successfulMailAlert && (
+              <div className="w-[90%] flex justify-start gap-2 py-4 items-end">
+                <Check className="w-6 h-6 text-green-600" />{" "}
+                <p className="text-sm">Письмо отправлено</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

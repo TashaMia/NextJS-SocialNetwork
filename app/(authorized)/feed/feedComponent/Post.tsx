@@ -145,13 +145,11 @@ export default function Post(props: Post) {
           <p className=" text-start text-normal w-[95%]">{props.textOfPost}</p>
         </div>
         {props.body.picture && props.body.picture ? (
-          <Image
+          <img
             src={props.body.picture}
             alt="post picture"
             className="rounded-xl w-[250px] sm:max-w-[75%] sm:w-[300px]"
-            width={300}
-            height={300}
-          />
+          ></img>
         ) : (
           <div></div>
         )}

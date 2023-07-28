@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import PostsList from "../../feed/feedComponent/PostsList";
 import { useParams } from "next/navigation";
 import useFileloader from "../../../useFileLoader";
-import { FileImage, Spinner } from "@phosphor-icons/react";
+import { FileImage, GearSix, Spinner } from "@phosphor-icons/react";
 import useGetUsersV2 from "../../../useGetUsersV2";
 import { createClient } from "@supabase/supabase-js";
 import EditProfile from "../userComponents/EditProfile";
@@ -14,12 +14,15 @@ import useGetFollowers from "../../../useGetFollowers";
 import useGetPostsV2 from "../../../useGetPostsV2";
 import Spin from "../../../Spin";
 import Image from "next/image";
+import LogOut from "../userComponents/LogOut";
 
 export default function User() {
   const supabase = createClient(
     "https://ifutxtlqsucntyibpetb.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmdXR4dGxxc3VjbnR5aWJwZXRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc4NjIyMTYsImV4cCI6MjAwMzQzODIxNn0.rhcAiilZcyAnvMV2ujvGU6CklOy1CeTdxlYWeiY47v4"
   );
+
+  const [modalWindowSignOut, setModalWindowSignOut] = useState(false);
 
   const userId =
     typeof window != "undefined" ? localStorage.getItem("userId") : "";
@@ -106,10 +109,10 @@ export default function User() {
   const classSpinStyle = "w-6 h-6";
 
   return (
-    <div className="flex flex-col justify-start w-full  gap-4">
-      <div className="flex flex-col justify-start items-start gap-14">
-        <div className="flex flex-col">
-          <div className=" flex justify-start gap-4 items-start p-4  ">
+    <div className="flex flex-col justify-start w-[100%]  gap-4">
+      <div className="flex flex-col justify-start items-start w-[100%] gap-14">
+        <div className="flex flex-col w-[100%]">
+          <div className=" flex justify-start w-[100%] gap-4 items-start p-4  ">
             <div className=" relative w-32 h-32">
               {loader ? (
                 <button
@@ -133,7 +136,7 @@ export default function User() {
               )}
 
               {users && (
-                <Image
+                <img
                   src={
                     users[0]?.picture !== null
                       ? users[0]?.picture
@@ -141,9 +144,7 @@ export default function User() {
                   }
                   alt="user photo"
                   className="w-28 object-cover h-28 rounded-xl sm:w-28 sm:h-28 hover:opacity-50"
-                  width={200}
-                  height={200}
-                />
+                ></img>
               )}
 
               <input
@@ -154,37 +155,52 @@ export default function User() {
                 accept="image/*,.png,.jpg,.gif"
               />
             </div>
-            <div className="flex flex-col items-start">
-              <div className="flex flex-row gap-1 font-semibold">
-                <p>{users && users[0]?.firstName}</p>
-                <p>{users && users[0]?.lastName}</p>
-              </div>
-              <p>{users && users[0]?.gender}</p>
-              <p className="text-violet-700">#{params.id?.slice(0, 7)}</p>
-              <div className="flex justify-start items-start w-[100%] gap-4 mt-4">
-                <Link href={`/user/${params.id}/subscriptions`}>
-                  <div className="flex flex-col justify-center items-center text-xs">
-                    {isLoadingSubscriptions ? (
-                      <Spin />
-                    ) : (
-                      <p>{subscriptionsData?.length}</p>
-                    )}
-                    <p>Подписок</p>
+            <div className="flex flex-col w-[100%] items-start">
+              <div className="flex  justify-between items-start w-[100%]  font-semibold">
+                <div className="flex flex-col justify-start">
+                  <div className="flex flex-row gap-1 font-semibold">
+                    <p>{users && users[0]?.firstName}</p>
+                    <p>{users && users[0]?.lastName}</p>
                   </div>
-                </Link>
-                <Link href={`/user/${params.id}/followers`}>
-                  <div className="flex flex-col justify-center items-center text-xs">
-                    {isLoadingFollowers ? (
-                      <Spin />
-                    ) : (
-                      <p>{followersData?.length}</p>
-                    )}
-                    <p>Подписчика</p>
+                  <p className="text-violet-700">#{params.id?.slice(0, 7)}</p>
+
+                  <div className="flex justify-start items-start w-[100%] gap-4 mt-4">
+                    <Link href={`/user/${params.id}/subscriptions`}>
+                      <div className="flex flex-col justify-center items-center text-xs">
+                        {isLoadingSubscriptions ? (
+                          <Spin />
+                        ) : (
+                          <p>{subscriptionsData?.length}</p>
+                        )}
+                        <p>Подписок</p>
+                      </div>
+                    </Link>
+                    <Link href={`/user/${params.id}/followers`}>
+                      <div className="flex flex-col justify-center items-center text-xs">
+                        {isLoadingFollowers ? (
+                          <Spin />
+                        ) : (
+                          <p>{followersData?.length}</p>
+                        )}
+                        <p>Подписчика</p>
+                      </div>
+                    </Link>
+                    <div className="flex flex-col justify-center items-center text-xs">
+                      {isLoadingPosts ? <Spin /> : <p>{posts?.length}</p>}
+                      <p>Постов</p>
+                    </div>
                   </div>
-                </Link>
-                <div className="flex flex-col justify-center items-center text-xs">
-                  {isLoadingPosts ? <Spin /> : <p>{posts?.length}</p>}
-                  <p>Постов</p>
+                </div>
+                <div className="flex flex-col justify-center items-end gap-4">
+                  <button
+                    className={`${
+                      modalWindowSignOut && "shadow-md"
+                    } w-11 h-11 flex justify-center items-center border border-slate-200 rounded-full cursor-pointer `}
+                    onClick={() => setModalWindowSignOut(!modalWindowSignOut)}
+                  >
+                    <GearSix className="w-5 h-5" />
+                  </button>
+                  {modalWindowSignOut && <LogOut />}
                 </div>
               </div>
             </div>

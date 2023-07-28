@@ -1,8 +1,11 @@
 "use client";
 
+import { useAtomValue } from "jotai";
 import Spin from "../../../Spin";
 import Spinner from "../../../Spin";
+import { stopScroll } from "../../../atoms";
 import useGetPostsV2 from "../../../useGetPostsV2";
+import Search from "../../Search/Search";
 import Post from "./Post";
 import { ViewportList } from "react-viewport-list";
 
@@ -25,15 +28,16 @@ export default function PostsList(props: IFilter) {
   });
 
   const postList = posts as Post[];
+  const scrollControl = useAtomValue(stopScroll);
 
   return (
-    <div className="feed w-screen   sm:w-full">
+    <div className={scrollControl ? " overflow-hidden h-[80vh]" : "feed"}>
       {isLoading ? (
         <div className="flex justify-center items-start pt-4">
           <Spin />
         </div>
       ) : (
-        <div className="w-[100%] sm:w-[100%] gap-4 sm:gap-4 mb-24 flex flex-col justify-center items-center">
+        <div className=" gap-4 sm:gap-4 mb-24 flex flex-col justify-center items-center">
           {posts && posts.length > 0 ? (
             <ViewportList items={postList}>
               {(item) => (

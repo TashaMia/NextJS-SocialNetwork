@@ -25,7 +25,7 @@ export default function NotificationSection() {
           Уведомления
         </h1>
         {notifications && notifications?.length > 0 ? (
-          <ul className="sm:w-[100%]  flex flex-col gap-2 mt-2">
+          <ul className="w-[90%]  flex flex-col gap-2 mt-2">
             {notifications.map((item: INotifications) => (
               <li key={item?.id} className="md:w-[100%]">
                 <Notification liker={item?.liker} />
