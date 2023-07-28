@@ -31,13 +31,17 @@ export default function PostsList(props: IFilter) {
   const scrollControl = useAtomValue(stopScroll);
 
   return (
-    <div className={scrollControl ? " overflow-hidden h-[80vh]" : "feed"}>
+    <div
+      className={
+        scrollControl ? " overflow-hidden h-[80vh]" : "feed md:w-[100%]"
+      }
+    >
       {isLoading ? (
         <div className="flex justify-center items-start pt-4">
           <Spin />
         </div>
       ) : (
-        <div className=" gap-4 sm:gap-4 mb-24 flex flex-col justify-center items-center">
+        <div className="  gap-4 sm:gap-4 mb-24 flex flex-col lg:min-h-screen  justify-start items-center">
           {posts && posts.length > 0 ? (
             <ViewportList items={postList}>
               {(item) => (
