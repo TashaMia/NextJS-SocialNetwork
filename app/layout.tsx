@@ -35,9 +35,10 @@ export default function RootLayout({
   const params = useParams();
 
   setTimeout(() => {
-    const user =
-      typeof window != "undefined" ? localStorage?.getItem("userId") : "";
-    setUserId(user);
+    // const user =
+    //   typeof window != "undefined" ? localStorage?.getItem("userId") : "";
+    // setUserId(user);
+    window.location.reload();
   }, 1000);
 
   const [menuIsVisible, setMenuIsVisible] = useState(true);
