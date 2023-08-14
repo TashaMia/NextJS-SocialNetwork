@@ -25,7 +25,8 @@ export default function Menu() {
   const path = usePathname();
   const params = useParams();
 
-  const currentUser = localStorage.getItem("userId");
+  const currentUser =
+    typeof window != "undefined" ? localStorage?.getItem("userId") : "";
   const modaWindowQue = useSetAtom(modalWindowQuestion);
   const modaWindowVisible = useSetAtom(modalWindow);
   const router = useRouter();
