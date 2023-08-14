@@ -16,7 +16,6 @@ export default function useGetSubscriptions({
 
     if (isFilter == true) {
       query = query.eq(`${filterColumn}`, `${filter}`);
-      console.log(filterColumn);
     }
     const { data, error } = await query;
 

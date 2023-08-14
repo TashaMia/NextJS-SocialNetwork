@@ -19,7 +19,7 @@ export default function Search() {
   }, []);
 
   return (
-    <div className="flex lg:w-[100%] overflow-hidden h-[70vh] lg:h-[100%] flex-col gap-4 justify-center p-2 items-center  ">
+    <div className="flex lg:w-[100%] overflow-hidden h-[70vh] lg:h-[100vh] flex-col gap-4 justify-center p-2 items-center  border-l border-l-slate-200 ">
       <div className="flex w-[90%] justify-center  rounded-full p-2 px-4 items-center border border-slate-200">
         <MagnifyingGlass className="w-6 h-6 text-slate-400" />
         <input

@@ -156,9 +156,14 @@ export default function Post(props: Post) {
         <div className="flex text-slate-400 pt-4 justify-start gap-8 w-[100%] items-center">
           <button
             onClick={() => {
-              commentModal(true);
-              user(props.user);
-              post(props.id);
+              if (userId == null) {
+                modaWindowQue("Хотите войти в профиль?");
+                modaWindowVisible(true);
+              } else {
+                commentModal(true);
+                user(props.user);
+                post(props.id);
+              }
             }}
           >
             <ChatCircleText className="w-6 h-6" />

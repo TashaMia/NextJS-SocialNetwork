@@ -23,9 +23,7 @@ export default function useGetLikePost({
       query = query.eq("user", `${filter}`);
       query = query.eq("post", `${filterPost}`);
     }
-    console.log(filterPost);
     const { data, error } = await query;
-    console.log(data);
 
     return data;
   }

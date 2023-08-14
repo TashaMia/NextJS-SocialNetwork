@@ -9,6 +9,7 @@ import { createClient } from "@supabase/supabase-js";
 import Robot from "./Robot";
 import Spin from "../../Spin";
 import { Check } from "@phosphor-icons/react";
+import useGetRegistrationStatus from "../../useGetRegistrationStatus";
 
 export default function AuthorizationV2() {
   const [error, setError] = useState(false);
@@ -48,8 +49,8 @@ export default function AuthorizationV2() {
     const { data, error } = await supabase.auth.signInWithOtp({
       email: email,
       options: {
-        emailRedirectTo: "https://next-js-social-network-steel.vercel.app/feed",
-        // emailRedirectTo: "http://localhost:3002/feed",
+        emailRedirectTo: "https://next-js-social-network-steel.vercel.app/",
+        // emailRedirectTo: "http://localhost:3002/",
       },
     });
   }

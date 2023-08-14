@@ -14,8 +14,6 @@ export default function useGetSearchAnswer({ isFilter, filter }: any) {
     }
 
     const { data, error } = await query;
-    console.log(data);
-    // console.log(filter)
 
     return data;
   }

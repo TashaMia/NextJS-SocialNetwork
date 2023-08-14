@@ -29,11 +29,7 @@ export default function PostsList(props: IFilter) {
   const scrollControl = useAtomValue(stopScroll);
 
   return (
-    <div
-      className={
-        scrollControl ? " overflow-hidden h-[80vh]" : "feed md:w-[100%]"
-      }
-    >
+    <div className={scrollControl ? " overflow-hidden h-[80vh]" : "w-[100%]"}>
       {isLoading ? (
         <div className="flex justify-center items-start pt-4">
           <Spin />
