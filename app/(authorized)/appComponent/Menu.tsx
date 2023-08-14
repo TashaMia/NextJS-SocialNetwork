@@ -96,7 +96,7 @@ export default function Menu() {
               modaWindowQue("Хотите войти в профиль?");
               modaWindowVisible(true);
             } else {
-              router.push(`/user/${userId}`);
+              router.push(`/user/${currentUser}`);
             }
           }}
         >
