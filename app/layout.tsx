@@ -40,9 +40,6 @@ export default function RootLayout({
     setUserId(user);
   }, 1000);
 
-  useEffect(() => {
-    window.location.reload();
-  }, [userId]);
   const [menuIsVisible, setMenuIsVisible] = useState(true);
 
   useEffect(() => {
