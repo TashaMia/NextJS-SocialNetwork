@@ -35,12 +35,14 @@ export default function RootLayout({
   const params = useParams();
 
   setTimeout(() => {
-    // const user =
-    //   typeof window != "undefined" ? localStorage?.getItem("userId") : "";
-    // setUserId(user);
-    window.location.reload();
+    const user =
+      typeof window != "undefined" ? localStorage?.getItem("userId") : "";
+    setUserId(user);
   }, 1000);
 
+  useEffect(() => {
+    window.location.reload();
+  }, [userId]);
   const [menuIsVisible, setMenuIsVisible] = useState(true);
 
   useEffect(() => {
